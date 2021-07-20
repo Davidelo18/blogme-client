@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $bg-color;
+    color:#242424;
+    &.dark {
+        background-color: $bg-color_dark;
+    }
+}
+
+.main {
+    &--posts {
+        max-width: 1200px;
+        margin: auto;
+    }
+}

@@ -1,0 +1,9 @@
+/*** === Rdzeń === ***/
+@import './core/variables'; //zmienne
+
+/*** === Podstawowe style === ***/
+@import './core/basics';
+
+/*** === Komponenty === ***/
+@import './components/_header'; // nagłówek
+@import './components/_post'; // post
