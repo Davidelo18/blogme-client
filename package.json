@@ -25,11 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b main -d build"
+    "eject": "react-scripts eject"
   },
-  "homepage": "https://davidelo18.github.io/blogMe-graphql/",
   "eslintConfig": {
     "extends": [
       "react-app",
