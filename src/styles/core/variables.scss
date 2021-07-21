@@ -1,8 +1,26 @@
+/* ===== [MEDIA QUERIES] ===== */
+
+$xs: 360px;
+$sm: 480px;
+$md: 760px;
+$lg: 960px;
+$xl: 1200px;
+$xxl: 2000px;
+
+/* ===== [KOLORY] ===== */
+
 // Tryb dzienny
 $bg-color: #f0f0f0;
 $text-color: #242424;
+
 $header-color: #118699;
+$mobile-nav-color: #007588;
 
 // Tryb nocny
 $bg-color_dark: #2c2c2c;
 $text-color_dark: #fefefe;
+
+/* ===== [ODSTĘPY] ===== */
+$spacer-xsmall: 5px;
+$spacer-small: 10px;
+$spacer: 20px;

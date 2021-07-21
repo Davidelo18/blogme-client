@@ -4,9 +4,18 @@
     box-sizing: border-box;
 }
 
+ul, ol {
+    list-style-type: none;
+}
+
+button {
+    border: none;
+}
+
 body {
     background-color: $bg-color;
     color:#242424;
+    font-family: 'Lato', sans-serif;
     &.dark {
         background-color: $bg-color_dark;
     }

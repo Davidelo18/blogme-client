@@ -1,4 +1,84 @@
 .header {
+    $component: &;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
     background-color: $header-color;
     color: #fff;
+    padding: $spacer-small;
+    &__logo {
+        padding: $spacer-small;
+        font-weight: 700;
+    }
+    &__burger {
+        display: block;
+        position: relative;
+        border-top: 3px solid #fff;
+        width: 30px;
+        height: 21px;
+        margin-top: $spacer-small;
+        background: transparent;
+        transition: 0.3s transform linear;
+        @include media-up($md) {
+            display: none;
+        }
+        &:hover {
+            cursor: pointer;
+        }
+        &.menu-opened {
+            transform: rotate(45deg);
+            border: none;
+            &::before {
+                transform: rotate(-90deg) translateX(-6px);
+            }
+        }
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-top: 3px solid #fff;
+        }
+        &::before {
+            transform: translateY(15px);
+            transition: .3s transform linear;
+        }
+        &::after {
+            margin-top: 6px;
+        }
+    }
+    &__options-container {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        z-index: 5;
+        width: 100%;
+        background-color: $mobile-nav-color;
+        transform: scale(1,0);
+        transform-origin: top;
+        transition: 0.3s transform linear;
+        @include media-up($md) {
+            display: flex;
+            position: static;
+            transform: none;
+            background-color: inherit;
+        }
+        &.open {
+            transform: scale(1,1);
+            #{$component}__option {
+                transform: scale(1,1);
+            }
+        }
+    }
+    &__option {
+        padding: $spacer-small;
+        transform: scale(1,0);
+        transform-origin: top;
+        transition: 0.15s transform linear;
+        @include media-up($md) {
+            transform: none;
+        }
+    }
 }
