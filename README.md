@@ -39,3 +39,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodanie możliwości minusowania postów
 * Dodanie możliwości plusowania i minusowania komentarzy
 * Dadanie mechanizmu odpowiadania na komentarze
+
+##### 26 lipca 2021r
+* Pełne ostylowanie menu głównego 
+* Button hamburger do menu głównego na mobile
