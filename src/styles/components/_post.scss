@@ -1,4 +1,36 @@
 .post {
     margin-bottom: 20px;
     background-color: aqua;
+    &__loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 300px;
+        .pencil {
+            width: 15px;
+            height: 200px;
+            background: rgb(20,18,50);
+            background: linear-gradient(0deg, rgba(20,18,50,1) 0%, rgba(20,18,50,1) 2%, rgba(223,176,143,1) 4%, rgba(207,176,143,1) 12%, rgba(15,159,63,1) 12%, rgba(15,159,63,1) 91%, rgba(212,175,55,1) 91%, rgba(212,175,55,1) 92%, rgba(205,205,205,1) 92%);
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+            animation: draw 3s infinite;
+            border: none;
+        }
+        .text {
+            font-size: 1.5rem;
+            margin-top: $spacer;
+        }
+    }
+    @keyframes draw {
+        0% {
+            transform: rotate(20deg);
+        }
+        50% {
+            transform: rotate(-30deg);
+        }
+        100% {
+            transform: rotate(20deg);
+        }
+    }
 }
