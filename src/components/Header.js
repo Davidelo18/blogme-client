@@ -17,6 +17,7 @@ function Header() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    /* Mechanizm dla burgera menu na mobile */
     const $burgerBtn = document.getElementById('burgerBtn');
     const $menuList = document.getElementById('menuList');
 

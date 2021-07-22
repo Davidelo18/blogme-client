@@ -12,7 +12,10 @@ function Home() {
             <Header/>
             <main className="main main--posts">
                 {loading ? (
-                    <h1>Ładowanie postów...</h1>
+                    <section className="post__loading">
+                        <div className="pencil"></div>
+                        <div className="text" id="loadingText">Wczytywanie postów</div>
+                    </section>
                 ) : (
                     posts && posts.map(post => (
                         <Post key={post.id} post={post}></Post>
