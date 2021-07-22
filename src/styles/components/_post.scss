@@ -1,6 +1,6 @@
 .post {
-    margin-bottom: 20px;
-    background-color: aqua;
+    margin: $spacer 0;
+    background-color: #fff;
     &__loading {
         display: flex;
         justify-content: center;
