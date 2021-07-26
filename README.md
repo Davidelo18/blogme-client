@@ -49,3 +49,6 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Przebudowanie menu głównego, przypięcie go do górnej krawędzi ekranu
 * Wykonanie ołówka jako wyświetlacz do ładowania postów
 * Wstępna zmiana stylowania postów
+
+##### 25 lipca 2021r
+* Przebudowa menu i dopasowanie wyglądu menu drugiego poziomu do desktop

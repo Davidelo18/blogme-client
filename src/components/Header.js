@@ -1,4 +1,5 @@
 import React from 'react';
+import { mdQuery } from '../core/Variables';
 
 function Header() {
     return (
@@ -8,7 +9,7 @@ function Header() {
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">
                     <li className="header__option">Mój profil</li>
-                    <li className="header__option" id="optionsMenu">Opcje</li>
+                    <li className="header__option" id="optionsMenu">Opcje<i className="fas fa-angle-down"></i></li>
                     <li className="header__hidden-menu-container" id="menuFor_optionsMenu">
                         <ul className="header__options-container header__options-container--hidden">
                             <li className="header__option">Tryb nocny</li>
@@ -39,8 +40,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         $menuForOptionsMenu.classList.toggle('open');
 
-        if ($menuForOptionsMenu.classList.contains('open')) $menuForOptionsMenu.style.maxHeight = `${numberOfChildren * 39}px`;
-        else $menuForOptionsMenu.style.maxHeight = 0;
+        if (mdQuery.matches) {
+            $menuForOptionsMenu.style.maxHeight = null;
+            $menuForOptionsMenu.style.left = `-${$optionsMenu.offsetWidth + 20}px`;
+        } else {
+            $menuForOptionsMenu.style.left = null;
+            if ($menuForOptionsMenu.classList.contains('open')) $menuForOptionsMenu.style.maxHeight = `${numberOfChildren * 39}px`;
+            else $menuForOptionsMenu.style.maxHeight = 0;
+        }
+
+        window.addEventListener('resize', () => {
+            $menuForOptionsMenu.classList.remove('open');
+            if (!mdQuery.matches) {
+                $menuForOptionsMenu.style.left = null;
+                $menuForOptionsMenu.style.maxHeight = null;
+            }
+        });
     });
 });
 
