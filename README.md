@@ -40,6 +40,9 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodanie możliwości plusowania i minusowania komentarzy
 * Dadanie mechanizmu odpowiadania na komentarze
 
+##### 20 lipca 2021r
+* Przeniesienie aplikacji na serwer produkcyjny blogme.pl
+
 ##### 21 lipca 2021r
 * Pełne ostylowanie menu głównego 
 * Button hamburger do menu głównego na mobile
@@ -52,3 +55,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 
 ##### 25 lipca 2021r
 * Przebudowa menu i dopasowanie wyglądu menu drugiego poziomu do desktop
+
+##### 27 lipca 2021r
+* Dodano stronę logowania i rejestracji
+* Stworzenie formularza logowania i rejestracji, podstawowe style i skrypty

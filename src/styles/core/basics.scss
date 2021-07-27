@@ -23,8 +23,6 @@ body {
 
 .main {
     padding-top: $header-height;
-    &--posts {
-        max-width: 1200px;
-        margin: auto;
-    }
+    max-width: 1200px;
+    margin: auto;
 }
