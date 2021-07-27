@@ -10,7 +10,7 @@ function Home() {
     return (
         <React.Fragment>
             <Header/>
-            <main className="main main--posts">
+            <main className="main">
                 {loading ? (
                     <section className="post__loading">
                         <div className="pencil"></div>

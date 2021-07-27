@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
         $loadingText.textContent += dotsString;
 
         goingForward ? dotsCount++ : dotsCount--;
-    }, 400);
+    }, 200);
 });
 
 export default Post;

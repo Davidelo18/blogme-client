@@ -1,0 +1,51 @@
+.form {
+    display: flex;
+    margin: $spacer-small;
+    background-color: $form-color;
+    text-align: center;
+    overflow-x: hidden;
+    &__container {
+        position: relative;
+        width: 100%;
+        flex-shrink: 0;
+        padding: $spacer-small;
+        padding-bottom: 4 * $spacer-small;
+        transition: transform 0.5s ease-in-out;
+        &--register {
+            transform: translateX(-100%);
+        }
+    }
+    &__title {
+        margin-bottom: $spacer;
+    }
+    section {
+        margin-bottom: $spacer-small;
+    }
+    &__imput {
+        width: 100%;
+        padding: $spacer-xsmall;
+        font-size: 1rem;
+        margin-bottom: $spacer-xsmall;
+        background-color: #fefefe;
+        color: $text-color;
+    }
+    &__button {
+        padding: $spacer-small;
+        background-color: darken($header-color, 5);
+        color: #fff;
+        border-radius: 6px;
+        font-size: 1rem;
+        &--switch {
+            position: absolute;
+            left: 50%;
+            bottom: $spacer-small;
+            transform: translateX(-50%);
+            width: 80%;
+            padding: $spacer-xsmall;
+            background-color: #ab6b0a;
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
