@@ -1,6 +1,4 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
 
 function Form() {
     return (
@@ -11,10 +9,6 @@ function Form() {
                     <section className="form__imput-section">
                         <p><label><input type="name" className="form__imput" id="nick" placeholder="Nazwa użytkownika"/></label></p>
                         <p><label><input type="password" className="form__imput" id="passwd" placeholder="Hasło"/></label></p>
-                    </section>
-                    <section>
-                        <p><a href="#">Nie pamiętam nazwy użytkownika</a></p>
-                        <p><a href="#">Nie pamiętam hasła</a></p>
                     </section>
                     <section>
                         <p><button className="form__button" type="submit">Zaloguj się</button></p>
@@ -62,6 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 });
 
+/*
 const REGISTER_USER = gql`
     mutation register(
         $username: String!
@@ -79,5 +74,6 @@ const REGISTER_USER = gql`
         }
     }
 `;
+*/
 
 export default Form;
