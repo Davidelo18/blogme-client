@@ -59,3 +59,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 27 lipca 2021r
 * Dodano stronę logowania i rejestracji
 * Stworzenie formularza logowania i rejestracji, podstawowe style i skrypty
+
+##### 4 sierpnia 2021r
+* Dalsze stylowanie formularzy (skończenie poza checkboxem)
+* Mechanizm rejestracji
