@@ -1,7 +1,10 @@
 .form {
     display: flex;
-    margin: $spacer-small;
-    background-color: $form-color;
+    margin: $spacer $spacer-small;
+    background-color: #ededed;
+    border: 2px solid #9c9c9c;
+    border-radius: 6px;
+    box-shadow: 2px 2px 15px 2px #606060;
     text-align: center;
     overflow-x: hidden;
     &__container {
@@ -21,31 +24,58 @@
     section {
         margin-bottom: $spacer-small;
     }
-    &__imput {
+    &__input {
         width: 100%;
-        padding: $spacer-xsmall;
+        padding: $spacer-small;
         font-size: 1rem;
         margin-bottom: $spacer-xsmall;
         background-color: #fefefe;
         color: $text-color;
+        border: 1px solid #606060;
+        border-radius: 6px;
+        &--error {
+            background-color: $light-red;
+        }
     }
     &__button {
         padding: $spacer-small;
-        background-color: darken($header-color, 5);
+        background-color: darken($header-color, 6);
         color: #fff;
         border-radius: 6px;
         font-size: 1rem;
+        transition: background-color 0.2s linear;
+        &:hover {
+            cursor: pointer;
+            background-color: darken($header-color, 1);
+        }
         &--switch {
             position: absolute;
             left: 50%;
             bottom: $spacer-small;
             transform: translateX(-50%);
-            width: 80%;
+            width: 60%;
             padding: $spacer-xsmall;
             background-color: #ab6b0a;
+            &:hover {
+                background-color: #bc7c1b;
+            }
         }
-        &:hover {
-            cursor: pointer;
+    }
+    &__input,
+    &__button {
+        outline: 2px solid transparent;
+        &:focus {
+            outline-color: $focus-color;
         }
+    }
+    &__errors {
+        width: 35%;
+        margin: auto;
+        padding: $spacer-small;
+        background-color: $light-red;
+        border: 1px solid $red;
+        border-radius: 6px;
+        font-weight: 600;
+        color: $red;
     }
 }
