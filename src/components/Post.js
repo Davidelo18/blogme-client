@@ -20,30 +20,32 @@ function Post({ post: { username, body, publishingTime, voteCount } }) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    /* animowany wielokropek przy ładowaniu postów */
-    const $loadingText = document.getElementById('loadingText');
-    const originalLoadingText = $loadingText.textContent;
+    if (window.location.href.indexOf("login") === -1) {
+        /* animowany wielokropek przy ładowaniu postów */
+        const $loadingText = document.getElementById('loadingText');
+        const originalLoadingText = $loadingText.textContent;
 
-    $loadingText.textContent += '.....';
-    $loadingText.style.width = `${$loadingText.offsetWidth + 1}px`; // +1 dla wartości niepełnych
-    $loadingText.textContent = originalLoadingText;
-
-    let dotsCount = 1;
-    let goingForward = true;
-
-    setInterval(() => {
-        let dotsString = '';
-
+        $loadingText.textContent += '.....';
+        $loadingText.style.width = `${$loadingText.offsetWidth + 1}px`; // +1 dla wartości niepełnych
         $loadingText.textContent = originalLoadingText;
 
-        if (dotsCount === 5) goingForward = false;
-        else if (dotsCount === 1) goingForward = true;
+        let dotsCount = 1;
+        let goingForward = true;
 
-        for (let i = 1; i <= dotsCount; i++) dotsString += '.';
-        $loadingText.textContent += dotsString;
+        setInterval(() => {
+            let dotsString = '';
 
-        goingForward ? dotsCount++ : dotsCount--;
-    }, 200);
+            $loadingText.textContent = originalLoadingText;
+
+            if (dotsCount === 5) goingForward = false;
+            else if (dotsCount === 1) goingForward = true;
+
+            for (let i = 1; i <= dotsCount; i++) dotsString += '.';
+            $loadingText.textContent += dotsString;
+
+            goingForward ? dotsCount++ : dotsCount--;
+        }, 200);
+    }
 });
 
 export default Post;
