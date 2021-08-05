@@ -63,3 +63,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 4 sierpnia 2021r
 * Dalsze stylowanie formularzy (skończenie poza checkboxem)
 * Mechanizm rejestracji
+
+##### 5 sierpnia 2021r
+* Mechanizm logowania
+* Usunięcie błędu serwera związanego z SECRET_KEY
