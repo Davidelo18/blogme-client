@@ -1,15 +1,23 @@
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './styles/root.scss';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { AuthProvider } from './core/auth';
+import { AuthRoute, NotLoginAuth } from './core/authRoute';
 
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Header from './components/Header';
 
 function App() {
   return (
-    <Router>
-      <Route exact path="/" component={Home}/>
-      <Route exact path="/login" component={Login}/>
-    </Router>
+    <AuthProvider>
+      <Header/>
+      <Router>
+        <NotLoginAuth exact path="/" component={Home}/>
+        <AuthRoute exact path="/login" component={Login}/>
+      </Router>
+    </AuthProvider>
   );
 }
 
