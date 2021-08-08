@@ -1,7 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import Header from '../components/Header';
 import Post from '../components/Post';
 
 function Home() {
@@ -9,7 +8,6 @@ function Home() {
 
     return (
         <React.Fragment>
-            <Header/>
             <main className="main">
                 {loading ? (
                     <section className="post__loading">

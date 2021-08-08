@@ -67,3 +67,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 5 sierpnia 2021r
 * Mechanizm logowania
 * Usunięcie błędu serwera związanego z SECRET_KEY
+
+##### 8 sierpnia 2021r
+* Usunięto błąd z przekierowaniem po zalogowaniu lub rejestracji
+* Dodano całkowity mechanizm rejestracji i logowania łącznie z zapamiętaniem sesji
