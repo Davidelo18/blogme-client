@@ -7,7 +7,7 @@ function CreatePost() {
         body: ''
     });
 
-    const [newPost, { error }] = useMutation(NEW_POST, {
+    const [newPost] = useMutation(NEW_POST, {
         variables: values,
         update(proxy, result) {
             console.log(result);
