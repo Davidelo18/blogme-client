@@ -71,3 +71,8 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 8 sierpnia 2021r
 * Usunięto błąd z przekierowaniem po zalogowaniu lub rejestracji
 * Dodano całkowity mechanizm rejestracji i logowania łącznie z zapamiętaniem sesji
+
+##### 9 sierpnia 2021r
+* Wstępne ostylowanie postów
+* Komponent dodawania posta
+* Prototyp możliwości dodawania postów
