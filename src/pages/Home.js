@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Post from '../components/Post';
+import CreatePost from '../components/CreatePost';
 
 function Home() {
     const { loading, data: { getPosts: posts } = {} } = useQuery(FETCH_POSTS);
@@ -9,16 +10,19 @@ function Home() {
     return (
         <React.Fragment>
             <main className="main">
-                {loading ? (
-                    <section className="post__loading">
-                        <div className="pencil"></div>
-                        <div className="text" id="loadingText">Wczytywanie postów</div>
-                    </section>
-                ) : (
-                    posts && posts.map(post => (
-                        <Post key={post.id} post={post}></Post>
-                    ))
-                )}
+                <CreatePost/>
+                <section className="posts-container">
+                    {loading ? (
+                        <section className="post__loading">
+                            <div className="pencil"></div>
+                            <div className="text" id="loadingText">Wczytywanie postów</div>
+                        </section>
+                    ) : (
+                        posts && posts.map(post => (
+                            <Post key={post.id} post={post}></Post>
+                        ))
+                    )}
+                </section>
             </main>
         </React.Fragment>
     );
