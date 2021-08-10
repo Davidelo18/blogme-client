@@ -44,7 +44,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Przeniesienie aplikacji na serwer produkcyjny blogme.pl
 
 ##### 21 lipca 2021r
-* Pełne ostylowanie menu głównego 
+* Pełne ostylowanie menu głównego
 * Button hamburger do menu głównego na mobile
 
 ##### 22 lipca 2021r
@@ -80,3 +80,4 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 10 sierpnia 2021r
 * Poprawienie działania JS - dodanie reloadingu strony przy logowaniu / rejestracji / wylogowaniu
 * Dodawanie posta bez przeładowania strony
+* Parsowanie HTML w postach
