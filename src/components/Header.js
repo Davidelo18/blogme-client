@@ -2,8 +2,14 @@ import React, { useContext } from 'react';
 import { mdQuery } from '../core/Variables';
 import { AuthContext } from '../core/auth';
 
-function Header() {
+function Header(props) {
     const { user, logout } = useContext(AuthContext);
+
+    const fullLogout= () => {
+        window.location.reload();
+        logout();
+    }
+
     const menu = user ? (
         <header className="header">
             <div className="header__logo">blogMe</div>
@@ -17,7 +23,7 @@ function Header() {
                             <li className="header__option">Tryb nocny</li>
                         </ul>
                     </li>
-                    <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
+                    <li className="header__option" role="button" onClick={fullLogout}>Wyloguj się</li>
                 </ul>
             </nav>
         </header>
@@ -31,18 +37,20 @@ function Header() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    if (window.location.href.indexOf("login") === -1) {
-        /* Mechanizm dla burgera menu na mobile */
-        const $burgerBtn = document.getElementById('burgerBtn');
-        const $menuList = document.getElementById('menuList');
+    /* Mechanizm dla burgera menu na mobile */
+    const $burgerBtn = document.getElementById('burgerBtn');
+    const $menuList = document.getElementById('menuList');
 
+    if ($burgerBtn && $menuList) {
         $burgerBtn.addEventListener('click', () => {
             $burgerBtn.classList.toggle('menu-opened');
             $menuList.classList.toggle('open');
         });
+    }
 
-        const $optionsMenu = document.getElementById('optionsMenu');
+    const $optionsMenu = document.getElementById('optionsMenu');
 
+    if ($optionsMenu) {
         $optionsMenu.addEventListener('click', () => {
             const $menuForOptionsMenu = document.getElementById(`menuFor_optionsMenu`);
             const numberOfChildren = $menuForOptionsMenu.querySelector('ul').childElementCount;

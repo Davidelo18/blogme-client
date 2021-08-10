@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { FETCH_POSTS } from '../core/graphql';
 
 function CreatePost() {
     const [values, setValues] = useState({
@@ -10,7 +11,12 @@ function CreatePost() {
     const [newPost] = useMutation(NEW_POST, {
         variables: values,
         update(proxy, result) {
-            console.log(result);
+            const data = proxy.readQuery({ query: FETCH_POSTS });
+            proxy.writeQuery({
+                query: FETCH_POSTS,
+                data: { getPosts: [result.data.createPost, ...data.getPosts] }
+            });
+
             values.body = '';
         }
     })
@@ -21,6 +27,7 @@ function CreatePost() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        document.getElementById('body').innerHTML = '';
         newPost();
     }
 
