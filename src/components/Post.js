@@ -1,13 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
+import ReactHtmlParser from 'react-html-parser';
 
 function Post({ post: { username, body, publishingTime, voteCount } }) {
     moment.locale('pl');
 
     const now = moment();
     let postDate;
-    
+
     if (moment(publishingTime).diff(now, 'days') >= 1) {
         postDate = moment(publishingTime).fromNow();
     } else {
@@ -23,7 +24,7 @@ function Post({ post: { username, body, publishingTime, voteCount } }) {
                     <div className="post__date">{ postDate }</div>
                 </div>
             </div>
-            <div className="post__body">{body}</div>
+            <div className="post__body">{ ReactHtmlParser(body) }</div>
             <div className="post__footer">
                 <div className="post__plusses">{voteCount}</div>
             </div>
