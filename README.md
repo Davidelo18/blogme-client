@@ -76,3 +76,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Wstępne ostylowanie postów
 * Komponent dodawania posta
 * Prototyp możliwości dodawania postów
+
+##### 10 sierpnia 2021r
+* Poprawienie działania JS - dodanie reloadingu strony przy logowaniu / rejestracji / wylogowaniu
+* Dodawanie posta bez przeładowania strony

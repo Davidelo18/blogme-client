@@ -1,8 +1,8 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import Post from '../components/Post';
 import CreatePost from '../components/CreatePost';
+import { FETCH_POSTS } from '../core/graphql';
 
 function Home() {
     const { loading, data: { getPosts: posts } = {} } = useQuery(FETCH_POSTS);
@@ -29,17 +29,5 @@ function Home() {
 }
 
 //document.getElementsByTagName('body')[0].classList.add('dark');
-
-const FETCH_POSTS = gql`
-    {
-        getPosts {
-            id
-            username
-            body
-            publishingTime
-            voteCount
-        }
-    }
-`;
 
 export default Home;

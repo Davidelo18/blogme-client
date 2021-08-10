@@ -23,8 +23,9 @@ function Form(props) {
     };
 
     const [registerUser, { registerLoading }] = useMutation(REGISTER_USER, {
-        update(proxy, { data: { login: userData } }) {
+        update(proxy, { data: { register: userData } }) {
             context.login(userData);
+            history.go(0);
             history.push('/');
         },
         onError(err) {
@@ -36,6 +37,7 @@ function Form(props) {
     const [loginUser, { loginLoading }] = useMutation(LOGIN_USER, {
         update(proxy, { data: { login: userData } }) {
             context.login(userData);
+            history.go(0);
             history.push('/');
         },
         onError(err) {
