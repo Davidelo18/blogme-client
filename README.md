@@ -81,3 +81,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Poprawienie działania JS - dodanie reloadingu strony przy logowaniu / rejestracji / wylogowaniu
 * Dodawanie posta bez przeładowania strony
 * Parsowanie HTML w postach
+
+##### 12 sierpnia 2021r
+* Dodanie ikonek plusowania i minusowania postów
+* Dodanie linku do komentarzy tj. pojedynczego posta

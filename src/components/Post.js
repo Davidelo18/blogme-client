@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
 
-function Post({ post: { username, body, publishingTime, voteCount } }) {
+function Post({ post: { id, username, body, publishingTime, voteCount } }) {
     moment.locale('pl');
 
     const now = moment();
@@ -26,7 +26,14 @@ function Post({ post: { username, body, publishingTime, voteCount } }) {
             </div>
             <div className="post__body">{ ReactHtmlParser(body) }</div>
             <div className="post__footer">
-                <div className="post__plusses">{voteCount}</div>
+                <div className="post__vote">
+                    <span className={(voteCount >= 0) ? "post__vote-result post__vote-result--positive" : "post__vote-result post__vote-result--negative"}>{voteCount}</span>
+                    <button className="post__vote-button post__vote-button--plus">+</button>
+                    <button className="post__vote-button post__vote-button--minus">-</button>
+                </div>
+                <div className="post__comments">
+                    <a className="post__link" href={`/wpis/${id}`}>Komentarze</a>
+                </div>
             </div>
         </article>
     )
