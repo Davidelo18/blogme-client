@@ -1,7 +1,11 @@
 .post {
     margin: $spacer 0;
     background-color: #fefefe;
-    border: 2px solid $header-color;
+    border-top: 2px solid $header-color;
+    border-bottom: 2px solid $header-color;
+    @include media-up($xl) {
+        border: 2px solid $header-color;
+    }
     &__loading {
         display: flex;
         justify-content: center;
@@ -38,7 +42,49 @@
     &__body {
         margin: $spacer-small $spacer-xsmall;
     }
+    &__vote {
+        font-weight: bold;
+        &-result {
+            margin-right: 5px;
+            &--positive {
+                color: #0b8c04;
+            }
+            &--negative {
+                color: #8c1b04;
+            }
+        }
+        &-button {
+            margin-left: 3px;
+            width: 20px;
+            height: 20px;
+            color: #fff;
+            transition: filter 0.15s ease-in;
+            &:hover {
+                cursor: pointer;
+                filter: brightness(85%);
+            }
+            &--plus {
+                background-color: #0b8c04;
+            }
+            &--minus {
+                background-color: #8c1b04;
+            }
+        }
+    }
+    &__link {
+        display: block;
+        background-color: $mobile-nav-color;
+        color: #fff;
+        padding: $spacer-xsmall;
+        transition: background-color 0.2s ease-in;
+        &:hover {
+            background-color: $hidden-menu-color;
+        }
+    }
     &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: $spacer-xsmall;
         background-color: #dedede;
         border-top: 1px solid $focus-color;

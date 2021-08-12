@@ -8,21 +8,27 @@ function CreatePost() {
         body: ''
     });
 
-    const [newPost] = useMutation(NEW_POST, {
+    const [newPost, { error }] = useMutation(NEW_POST, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({ query: FETCH_POSTS });
+
             proxy.writeQuery({
                 query: FETCH_POSTS,
                 data: { getPosts: [result.data.createPost, ...data.getPosts] }
             });
-
             values.body = '';
+        },
+        onError(err) {
+            console.error(err);
         }
     })
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.id]: e.target.innerHTML });
+        const button = document.querySelector('.new-post__submit');
+
+        e.target.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
     };
 
     const onSubmit = (e) => {
@@ -35,6 +41,9 @@ function CreatePost() {
         <div className="new-post">
             <div className="new-post__editor" contentEditable="true" value={values.body} onInput={onChange} id="body"></div>
             <button className="new-post__submit" onClick={onSubmit}>Bloguj!</button>
+            {error && (
+                <div>{(error.graphQLErrors[0].message)}</div>
+            )}
         </div>
     )
 }
