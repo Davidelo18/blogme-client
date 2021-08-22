@@ -7,6 +7,14 @@ export const FETCH_POSTS = gql`
         username
         body
         publishingTime
+        plusses {
+            id
+            username
+        }
+        minusses {
+            id
+            username
+        }
         voteCount
     }
 }`;

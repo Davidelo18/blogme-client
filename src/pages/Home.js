@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
+import { Transition } from 'semantic-ui-react';
 import Post from '../components/Post';
 import CreatePost from '../components/CreatePost';
 import { FETCH_POSTS } from '../core/graphql';
@@ -18,9 +19,11 @@ function Home() {
                             <div className="text" id="loadingText">Wczytywanie postów</div>
                         </section>
                     ) : (
-                        posts && posts.map(post => (
-                            <Post key={post.id} post={post}></Post>
-                        ))
+                        <Transition.Group>
+                            {posts && posts.map(post => (
+                                <Post key={post.id} post={post}></Post>
+                            ))}
+                        </Transition.Group>
                     )}
                 </section>
             </main>
