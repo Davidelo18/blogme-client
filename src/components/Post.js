@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { FETCH_POSTS } from '../core/graphql';
 
 function Post({ post: { id, username, body, publishingTime, plusses, minusses, voteCount } }) {
     const { user } = useContext(AuthContext);
@@ -29,6 +30,29 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
     const [minusPost] = useMutation(MINUS_POST, {
         variables: { postId: id }
     });
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    const [deletePost] = useMutation(DELETE_POST, {
+        update(proxy, result) {
+            setConfirmOpen(false);
+            const data = proxy.readQuery({
+                query: FETCH_POSTS
+            });
+            proxy.writeQuery({
+                query: FETCH_POSTS,
+                data: {
+                    getPosts: data.getPosts.filter(p => p.id !== id)
+                }
+            });
+        },
+        variables: { postId: id }
+    });
+
+    function deletePostCallback() {
+        if (window.location.href.indexOf("wpis") !== -1) window.location.pathname = "/";
+        deletePost()
+    }
 
     return (
         <article className="post">
@@ -57,9 +81,9 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
 
                 <div className="post__comments">
                     {user && user.username === username && (
-                        <button className="post__delete" onClick={() => console.log("usunieto")}><FontAwesomeIcon icon={faTrash} /></button>
+                        <button className="post__delete" onClick={deletePostCallback}><FontAwesomeIcon icon={faTrash} /></button>
                     )}
-                    <a className="post__link" href={`/wpis/${id}`}>Komentarze</a>
+                    {window.location.pathname === "/" && (<a className="post__link" href={`/wpis/${id}`}>Komentarze</a>)}
                 </div>
             </div>
         </article>
@@ -122,6 +146,12 @@ const MINUS_POST = gql`
             }
             voteCount
         }
+    }
+`
+
+const DELETE_POST = gql`
+    mutation deletePost($postId: ID!){
+        deletePost(postId: $postId)
     }
 `
 

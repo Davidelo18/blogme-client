@@ -51,7 +51,17 @@ function CreatePost() {
 const NEW_POST = gql`
     mutation createPost($body: String!) {
         createPost(body: $body) {
-            id body publishingTime username voteCount
+            id
+            body
+            publishingTime
+            username
+            plusses {
+                id
+            }
+            minusses {
+                id
+            }
+            voteCount
         }
     }
 `

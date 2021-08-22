@@ -89,4 +89,5 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 22 sierpnia 2021r
 * Dodanie funkcjonalności plusowania i minusowania
 * Dodanie ikonek FontAwesome
-* Przycisk usunięcia postu (bez funkcjonalności)
+* Przycisk usunięcia postu z funkcjonalnością
+* Osobna strona dla każdego posta
