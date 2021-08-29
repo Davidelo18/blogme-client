@@ -1,0 +1,87 @@
+.comments-section {
+    margin: $spacer-xlarge 0;
+    &__title {
+        margin-bottom: $spacer;
+    }
+}
+
+.comment {
+    $component: &;
+    margin-bottom: $spacer-large;
+    background-color: $comment-color;
+    &--own {
+        background-color: $owner-comment-color;
+        #{$component}__header,
+        #{$component}__footer {
+            background-color: $owner-comment-header-color;
+        }
+    }
+    &__header,
+    &__footer {
+        padding: $spacer-xsmall $spacer-small;
+        background-color: $comment-header-color;
+    }
+    &__user {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+    &__date {
+        font-size: 0.75rem;
+    }
+    &__body {
+        padding: $spacer-small;
+    }
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__vote {
+        font-weight: bold;
+        &-result {
+            margin-right: 5px;
+            &--positive {
+                color: #0b8c04;
+            }
+            &--negative {
+                color: #8c1b04;
+            }
+        }
+        &-button {
+            margin-left: 3px;
+            width: 20px;
+            height: 20px;
+            color: $text-color;
+            transition: filter 0.15s ease-in;
+            border: 1px solid transparent;
+            &:hover {
+                cursor: pointer;
+                filter: brightness(85%);
+            }
+            &--plus {
+                border-color: #0b8c04;
+                &.voted {
+                    background-color: #0b8c04;
+                    color: #fff;
+                }
+            }
+            &--minus {
+                border-color: #8c1b04;
+                &.voted {
+                    background-color: #8c1b04;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    &__reply-button {
+        padding: $spacer-xsmall;
+        margin-left: $spacer-small;
+        background-color: #eee;
+        transition: background-color .2s ease-in;
+        &:hover {
+            cursor: pointer;
+            background-color: #dedede;
+        }
+    }
+}

@@ -18,3 +18,23 @@ export const FETCH_POSTS = gql`
         voteCount
     }
 }`;
+
+export const GET_POST_COMMENTS = gql`
+    query($postId: ID!){
+        getComments(postId: $postId){
+            id
+            body
+            username
+            publishingTime
+            plusses {
+                id
+                username
+            }
+            minusses {
+                id
+                username
+            }
+            voteCount
+        }
+    }
+`;

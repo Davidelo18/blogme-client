@@ -6,17 +6,16 @@ function Header(props) {
     const { user, logout } = useContext(AuthContext);
 
     const fullLogout= () => {
-        window.location.reload();
+        window.location.pathname = "/login";
         logout();
     }
 
     const menu = user ? (
         <header className="header">
-            <div className="header__logo">blogMe</div>
+            <a href="/"><div className="header__logo">blogMe</div></a>
             <nav className="header__nav">
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">
-                    <li className="header__option">Mój profil</li>
                     <li className="header__option" id="optionsMenu">Opcje<i className="fas fa-angle-down"></i></li>
                     <li className="header__hidden-menu-container" id="menuFor_optionsMenu">
                         <ul className="header__options-container header__options-container--hidden">

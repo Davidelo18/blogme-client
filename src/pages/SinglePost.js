@@ -2,6 +2,9 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Post from '../components/Post';
+import Comment from '../components/Comment';
+import CreateComment from '../components/CreateComment';
+import { GET_POST_COMMENTS } from '../core/graphql';
 
 function SinglePost(props) {
     const postId = props.match.params.postId;
@@ -10,7 +13,13 @@ function SinglePost(props) {
         variables: {
           postId
         }
-      });
+    });
+
+    const { loading, data: { getComments } = {}} = useQuery(GET_POST_COMMENTS, {
+        variables: {
+          postId
+        }
+    });
 
     let postMarkup;
     if (!getOnePost) {
@@ -20,10 +29,25 @@ function SinglePost(props) {
                 <div className="text" id="loadingText">Ładowanie posta</div>
             </section>
     )} else {
-        const { id, body, publishingTime, username, plusses, minusses, voteCount } = getOnePost;
-
         postMarkup = (
-            <Post post={getOnePost}/>
+            <React.Fragment>
+                <Post post={getOnePost}/>
+                <section className="comments-section">
+                    <h2 className="comments-section__title">Komentarze</h2>
+                    <CreateComment postId={postId}/>
+                    {loading ? (
+                        <div>Ładowanie komentarzy</div>
+                    ) : (
+                        getComments.length > 0 ? (getComments.map(comment => (
+                            <Comment key={comment.id} comment={comment}/>
+                        ))) : (
+                            <p>Brak komentarzy</p>
+                        )
+                    )}
+
+
+                </section>
+            </React.Fragment>
         )
     }
 
@@ -54,6 +78,6 @@ const FETCH_SINGLE_POST = gql`
             voteCount
         }
     }
-`
+`;
 
 export default SinglePost;
