@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { useHistory } from "react-router-dom";
 import { AuthContext } from '../core/auth';
 
 function Form(props) {
@@ -16,7 +15,6 @@ function Form(props) {
         newUserPassword: '',
         confirmPassword: ''
     });
-    let history = useHistory();
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -25,8 +23,7 @@ function Form(props) {
     const [registerUser, { registerLoading }] = useMutation(REGISTER_USER, {
         update(proxy, { data: { register: userData } }) {
             context.login(userData);
-            history.go(0);
-            history.push('/');
+            window.location.pathname = "/";
         },
         onError(err) {
             setRegisterErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -37,8 +34,7 @@ function Form(props) {
     const [loginUser, { loginLoading }] = useMutation(LOGIN_USER, {
         update(proxy, { data: { login: userData } }) {
             context.login(userData);
-            history.go(0);
-            history.push('/');
+            window.location.pathname = "/";
         },
         onError(err) {
             setLoginErrors(err.graphQLErrors[0].extensions.exception.errors);

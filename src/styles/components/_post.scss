@@ -1,10 +1,13 @@
 .post {
     margin: $spacer 0;
     background-color: #fefefe;
-    border-top: 2px solid $header-color;
-    border-bottom: 2px solid $header-color;
+    border-top: 2px solid $main-color;
+    border-bottom: 2px solid $main-color;
     @include media-up($xl) {
-        border: 2px solid $header-color;
+        border: 2px solid $main-color;
+    }
+    &--own {
+        background-color: $owner-comment-color;
     }
     &__loading {
         display: flex;

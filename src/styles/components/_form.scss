@@ -39,14 +39,14 @@
     }
     &__button {
         padding: $spacer-small;
-        background-color: darken($header-color, 6);
+        background-color: darken($main-color, 6);
         color: #fff;
         border-radius: 6px;
         font-size: 1rem;
         transition: background-color 0.2s linear;
         &:hover {
             cursor: pointer;
-            background-color: darken($header-color, 1);
+            background-color: darken($main-color, 1);
         }
         &--switch {
             position: absolute;

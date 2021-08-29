@@ -91,3 +91,9 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodanie ikonek FontAwesome
 * Przycisk usunięcia postu z funkcjonalnością
 * Osobna strona dla każdego posta
+
+##### 29 sierpnia 2021r
+* Poprawienie usuwania postów - confirm
+* Dodanie wyświetlania komentarzy
+* Pisanie nowych komentarzy i ocenianie
+* Kolory dla własnych postów lub komentarzy oraz brak możliwości oceniania własnych postów lub komentarzy

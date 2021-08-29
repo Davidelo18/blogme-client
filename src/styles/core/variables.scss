@@ -17,11 +17,16 @@ $light-red: #fae2de;
 $bg-color: #f0f0f0;
 $text-color: #242424;
 
-$header-color: #118699;
+$main-color: #118699;
 $mobile-nav-color: #007588;
 $hidden-menu-color: #006477;
 
 $form-color: #c1e3e8;
+
+$comment-color: #dfdfdf;
+$owner-comment-color: #b3e9f2;
+$comment-header-color: #cfcfcf;
+$owner-comment-header-color: #9fb2b5;
 
 // Tryb nocny
 $bg-color_dark: #2c2c2c;
@@ -31,6 +36,8 @@ $text-color_dark: #fefefe;
 $spacer-xsmall: 5px;
 $spacer-small: 10px;
 $spacer: 20px;
+$spacer-large: 35px;
+$spacer-xlarge: 50px;
 
 /* ===== [WYSOKOŚCI] ===== */
 $header-height: 59px;

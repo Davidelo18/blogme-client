@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
@@ -31,11 +31,8 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
         variables: { postId: id }
     });
 
-    const [confirmOpen, setConfirmOpen] = useState(false);
-
     const [deletePost] = useMutation(DELETE_POST, {
-        update(proxy, result) {
-            setConfirmOpen(false);
+        update(proxy) {
             const data = proxy.readQuery({
                 query: FETCH_POSTS
             });
@@ -50,12 +47,14 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
     });
 
     function deletePostCallback() {
-        if (window.location.href.indexOf("wpis") !== -1) window.location.pathname = "/";
-        deletePost()
+        if (window.confirm("Czy na pewno chcesz usunąć post?")) {
+            if (window.location.href.indexOf("wpis") !== -1) window.location.pathname = "/";
+            deletePost();
+        }
     }
 
     return (
-        <article className="post">
+        <article className={user.username === username ? "post post--own" : "post"}>
             <div className="post__header">
                 <div className="post__avatar"></div>
                 <div className="post__info">
@@ -63,25 +62,29 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
                     <div className="post__date">{postDate}</div>
                 </div>
             </div>
-            <div className="post__body">{ ReactHtmlParser(body) }</div>
+            <div className="post__body">{ReactHtmlParser(body)}</div>
             <div className="post__footer">
                 <div className="post__vote">
                     <span className={(voteCount >= 0) ? "post__vote-result post__vote-result--positive" : "post__vote-result post__vote-result--negative"}>{voteCount}</span>
-                    <button user={user} onClick={plusPost} id="plusBtn" className={
-                        plusses.find(plus => plus.username === user.username)
-                            ? "post__vote-button post__vote-button--plus voted"
-                            : "post__vote-button post__vote-button--plus"
-                    }>+</button>
-                    <button user={user} onClick={minusPost} id="minusBtn" className={
-                        minusses.find(minus => minus.username === user.username)
-                            ? "post__vote-button post__vote-button--minus voted"
-                            : "post__vote-button post__vote-button--minus"
-                    }>-</button>
+                    {user.username !== username && (
+                        <React.Fragment>
+                            <button user={user} onClick={plusPost} id="plusBtn" className={
+                                plusses.find(plus => plus.username === user.username)
+                                    ? "post__vote-button post__vote-button--plus voted"
+                                    : "post__vote-button post__vote-button--plus"
+                            }>+</button>
+                            <button user={user} onClick={minusPost} id="minusBtn" className={
+                                minusses.find(minus => minus.username === user.username)
+                                    ? "post__vote-button post__vote-button--minus voted"
+                                    : "post__vote-button post__vote-button--minus"
+                            }>-</button>
+                        </React.Fragment>
+                    )}
                 </div>
 
                 <div className="post__comments">
                     {user && user.username === username && (
-                        <button className="post__delete" onClick={deletePostCallback}><FontAwesomeIcon icon={faTrash} /></button>
+                        <button className="post__delete" onClick={() => deletePostCallback()}><FontAwesomeIcon icon={faTrash} /></button>
                     )}
                     {window.location.pathname === "/" && (<a className="post__link" href={`/wpis/${id}`}>Komentarze</a>)}
                 </div>
