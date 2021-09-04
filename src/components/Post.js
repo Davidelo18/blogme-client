@@ -47,7 +47,7 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
     });
 
     function deletePostCallback() {
-        if (window.confirm("Czy na pewno chcesz usunąć post?")) {
+        if (window.confirm("Czy na pewno chcesz usunąć ten post?")) {
             if (window.location.href.indexOf("wpis") !== -1) window.location.pathname = "/";
             deletePost();
         }

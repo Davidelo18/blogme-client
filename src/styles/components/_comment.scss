@@ -74,6 +74,21 @@
             }
         }
     }
+    &__replies-buttons {
+        display: flex;
+        align-items: center;
+    }
+    &__delete {
+        margin-right: $spacer-small;
+        background-color: transparent;
+        font-size: 20px;
+        color: $red;
+        transition: color 0.25s ease-in;
+        &:hover {
+            cursor: pointer;
+            color: lighten($red, 10);
+        }
+    }
     &__reply-button {
         padding: $spacer-xsmall;
         margin-left: $spacer-small;
