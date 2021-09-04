@@ -1,13 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@apollo/react-hooks';
 import { AuthContext } from '../core/auth';
 import gql from 'graphql-tag';
+import { GET_POST_COMMENTS } from '../core/graphql';
+import CreatePost from './CreatePost';
 
-function Comment({ comment: { id, username, body, publishingTime, plusses, minusses, voteCount } }) {
+function Comment({ comment: { id, username, body, publishingTime, plusses, minusses, voteCount }, postId}) {
     const { user } = useContext(AuthContext);
+
+    const [values, setValues] = useState({
+        replyBody: ''
+    });
 
     moment.locale('pl');
 
@@ -27,6 +35,42 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
     const [minusComment] = useMutation(MINUS_COMMENT, {
         variables: { commentId: id }
     });
+
+    const [deleteComment] = useMutation(DELETE_COMMENT, {
+        update(proxy) {
+            const data = proxy.readQuery({
+                query: GET_POST_COMMENTS,
+                variables: {
+                    postId
+                }
+            });
+
+            proxy.writeQuery({
+                query: GET_POST_COMMENTS,
+                variables: {
+                    postId
+                },
+                data: {
+                    getComments: data.getComments.filter(p => p.id !== id)
+                }
+            });
+        },
+        variables: { commentId: id }
+    });
+
+    function deleteCommentCallback() {
+        if (window.confirm("Czy na pewno chcesz usunąć ten komentarz?")) {
+            deleteComment();
+        }
+    }
+
+    const [postReplyToComment] = useMutation(REPLY_TO_COMMENT, {
+        variables: { commentId: id, body: values.replyBody }
+    });
+
+    function replyToCommentCallback() {
+        console.log(this);
+    }
 
     return (
         <article className={user.username === username ? "comment comment--own" : "comment"} key={id}>
@@ -56,9 +100,15 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
                     )}
                 </div>
                 <div className="comment__replies-buttons">
-                    <button className="comment__reply-button" onClick={alert("wait for this")}>Pokaż odpowiedzi</button>
-                    <button className="comment__reply-button" onClick={alert("wait for this")}>Odpowiedz</button>
+                    {user && user.username === username && (
+                        <button className="comment__delete" onClick={() => deleteCommentCallback()}><FontAwesomeIcon icon={faTrash} /></button>
+                    )}
+                    <button className="comment__reply-button">Pokaż odpowiedzi</button>
+                    <button className="comment__reply-button" onClick={() => replyToCommentCallback()}>Odpowiedz</button>
                 </div>
+            </section>
+            <section className="comment__reply-to" style={{display: "none"}}>
+                <CreatePost label="Odpowiedz" postId={id} isReply/>
             </section>
         </article>
     )
@@ -88,6 +138,52 @@ const MINUS_COMMENT = gql`
             }
             minusses {
                 id username
+            }
+            voteCount
+        }
+    }
+`
+
+const DELETE_COMMENT = gql`
+    mutation deleteComment($commentId: ID!){
+        deleteComment(commentId: $commentId)
+    }
+`
+
+const GET_REPLIES = gql`
+    query($commentId: ID!){
+        getReplies(commentId: $commentId){
+            id
+            body
+            username
+            publishingTime
+            plusses {
+                id
+                username
+            }
+            minusses {
+                id
+                username
+            }
+            voteCount
+        }
+    }
+`;
+
+const REPLY_TO_COMMENT = gql`
+    mutation postReplyToComment($commentId: ID!, $body: String!){
+        postReplyToComment(commentId: $commentId, body: $body) {
+            id
+            body
+            username
+            publishingTime
+            plusses {
+                id
+                username
+            }
+            minusses {
+                id
+                username
             }
             voteCount
         }

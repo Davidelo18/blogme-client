@@ -3,8 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Post from '../components/Post';
 import Comment from '../components/Comment';
-import CreateComment from '../components/CreateComment';
 import { GET_POST_COMMENTS } from '../core/graphql';
+import CreatePost from '../components/CreatePost';
 
 function SinglePost(props) {
     const postId = props.match.params.postId;
@@ -34,12 +34,12 @@ function SinglePost(props) {
                 <Post post={getOnePost}/>
                 <section className="comments-section">
                     <h2 className="comments-section__title">Komentarze</h2>
-                    <CreateComment postId={postId}/>
+                    <CreatePost label="Dodaj komentarz" postId={postId}/>
                     {loading ? (
                         <div>Ładowanie komentarzy</div>
                     ) : (
                         getComments.length > 0 ? (getComments.map(comment => (
-                            <Comment key={comment.id} comment={comment}/>
+                            <Comment key={comment.id} comment={comment} postId={postId}/>
                         ))) : (
                             <p>Brak komentarzy</p>
                         )

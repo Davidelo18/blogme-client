@@ -3,3 +3,19 @@
         @content;
     }
 }
+
+@mixin tooltip($content) {
+    &:hover {
+        &::after {
+            content: $content;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: $tooltip-color;
+            color: #fff;
+            padding: $spacer-xsmall;
+            min-width: 100px;
+        }
+    }
+}

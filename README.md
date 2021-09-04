@@ -97,3 +97,8 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodanie wyświetlania komentarzy
 * Pisanie nowych komentarzy i ocenianie
 * Kolory dla własnych postów lub komentarzy oraz brak możliwości oceniania własnych postów lub komentarzy
+
+##### 4 września 2021r
+* Dodano usuwanie komentarzy
+* Refaktoring kodu dotyczący renderowania edytora nowego komentarza lub posta
+* Stworzenie wizualne toolbara dla edytora
