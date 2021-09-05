@@ -38,3 +38,23 @@ export const GET_POST_COMMENTS = gql`
         }
     }
 `;
+
+export const GET_REPLIES = gql`
+    query($commentId: ID!){
+        getReplies(commentId: $commentId){
+            id
+            body
+            username
+            publishingTime
+            plusses {
+                id
+                username
+            }
+            minusses {
+                id
+                username
+            }
+            voteCount
+        }
+    }
+`;

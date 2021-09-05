@@ -11,6 +11,7 @@ function CreatePost({label, postId, isReply}) {
         body: ''
     });
 
+    // nowy post
     const [newPost, { postError }] = useMutation(NEW_POST, {
         variables: values,
         update(proxy, result) {
@@ -27,6 +28,7 @@ function CreatePost({label, postId, isReply}) {
         }
     });
 
+    // nowy komentarz
     const [newComment, { commentError }] = useMutation(NEW_COMMENT, {
         variables: { postId, body: values.body },
         update(proxy, result) {
@@ -52,41 +54,98 @@ function CreatePost({label, postId, isReply}) {
         }
     });
 
+    // nowa odpowiedź
+    const [newReply, { replyError }] = useMutation(NEW_REPLY, {
+        variables: { commentId: postId, body: values.body },
+        onError(err) {
+            console.error(err);
+        }
+    });
+
     const onChange = (e) => {
-        setValues({ ...values, [e.target.id]: e.target.innerHTML });
+        const editor = document.querySelector('.new-post__editor');
+        setValues({ ...values, [editor.id]: editor.innerHTML });
         const button = document.querySelector('.new-post__submit');
 
-        e.target.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
+        editor.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
         document.getElementById('body').innerHTML = '';
-        postId ? newComment() : newPost();
+        postId
+            ? isReply ? newReply() : newComment()
+            : newPost();
     }
 
-    const boldText = () => {
-        console.log(484378);
+    /* Edytor treści posta lub komentarza */
+
+    const textStyle = {
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "spoiler": false
     }
 
-    const italicText = () => {
-        console.log(484378);
+    function setTextStyle(style, value) {
+        textStyle[style] = value;
     }
 
-    const underlineText = () => {
-        console.log(484378);
+    function isSelected(btn) {
+        const classes = btn.classList;
+        if (classes.contains('selected')) {
+            classes.remove('selected');
+            return true;
+        } else {
+            classes.add('selected');
+            return false;
+        }
     }
 
-    const addLink = () => {
-        console.log(484378);
+    const boldText = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        isSelected(t) ? setTextStyle('bold', false) : setTextStyle('bold', true);
+        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
     }
 
-    const addPhotoVideo = () => {
-        console.log(484378);
+    const italicText = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        isSelected(t) ? setTextStyle('italic', false) : setTextStyle('italic', true);
+        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
     }
 
-    const addSpoiler = () => {
-        console.log(484378);
+    const underlineText = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        isSelected(t) ? setTextStyle('underline', false) : setTextStyle('underline', true);
+        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
+    }
+
+    const addLink = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+        editor.insertAdjacentHTML('beforeend', '<a href="#">Link</a>')
+        onChange();
+    }
+
+    const addPhotoVideo = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+        editor.insertAdjacentHTML('beforeend', '<img src="https://icon-library.com/images/64-x-64-icon/64-x-64-icon-3.jpg"/>')
+        onChange();
+    }
+
+    const addSpoiler = (e) => {
+        const t = e.target;
+        const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        isSelected(t) ? setTextStyle('spoiler', false) : setTextStyle('spoiler', true);
+        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
     }
 
     return (
@@ -100,7 +159,7 @@ function CreatePost({label, postId, isReply}) {
                     <button className="new-post__toolbar-option new-post__toolbar-option--photovideo" onClick={addPhotoVideo}><FontAwesomeIcon icon={faPhotoVideo}/></button>
                     <button className="new-post__toolbar-option new-post__toolbar-option--spoiler" onClick={addSpoiler}><FontAwesomeIcon icon={faEyeSlash}/></button>
                 </div>
-                <div className="new-post__editor" contentEditable="true" value={values.body} onInput={onChange} id="body"></div>
+                <div className="new-post__editor" contentEditable="true" value={values.body} onInput={onChange} id="body" js-text-options={encodeURIComponent(JSON.stringify(textStyle))}></div>
             </section>
             <button className="new-post__submit" onClick={onSubmit}>{label}</button>
             {postError && (
@@ -108,6 +167,9 @@ function CreatePost({label, postId, isReply}) {
             )}
             {commentError && (
                 <div>{(commentError.graphQLErrors[0].message)}</div>
+            )}
+            {replyError && (
+                <div>{(replyError.graphQLErrors[0].message)}</div>
             )}
         </div>
     )
@@ -143,6 +205,26 @@ const NEW_COMMENT = gql`
             }
             minusses {
                 id
+            }
+            voteCount
+        }
+    }
+`
+
+const NEW_REPLY = gql`
+    mutation postReplyToComment($commentId: ID!, $body: String!){
+        postReplyToComment(commentId: $commentId, body: $body) {
+            id
+            body
+            username
+            publishingTime
+            plusses {
+                id
+                username
+            }
+            minusses {
+                id
+                username
             }
             voteCount
         }

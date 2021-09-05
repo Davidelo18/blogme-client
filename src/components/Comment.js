@@ -1,21 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { AuthContext } from '../core/auth';
 import gql from 'graphql-tag';
-import { GET_POST_COMMENTS } from '../core/graphql';
+import { GET_POST_COMMENTS, GET_REPLIES } from '../core/graphql';
 import CreatePost from './CreatePost';
+import Replies from './Replies';
 
-function Comment({ comment: { id, username, body, publishingTime, plusses, minusses, voteCount }, postId}) {
+function Comment({ comment: { id, username, body, publishingTime, plusses, minusses, voteCount }, postId, isReply}) {
     const { user } = useContext(AuthContext);
-
-    const [values, setValues] = useState({
-        replyBody: ''
-    });
 
     moment.locale('pl');
 
@@ -61,19 +58,54 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
     function deleteCommentCallback() {
         if (window.confirm("Czy na pewno chcesz usunąć ten komentarz?")) {
             deleteComment();
+            if (getReplies.length > 0) {
+                getReplies.forEach(reply => {
+                    deleteComment({
+                        variables: {
+                            commentId: reply.id
+                        }
+                    });
+                });
+            }
         }
     }
 
-    const [postReplyToComment] = useMutation(REPLY_TO_COMMENT, {
-        variables: { commentId: id, body: values.replyBody }
+    const { data: { getReplies } = {} } = useQuery(GET_REPLIES, {
+        variables: { commentId: id }
     });
 
-    function replyToCommentCallback() {
-        console.log(this);
+    function getRepliesCallback(event) {
+        const t = event.target;
+        const repliesContainer = t.closest('.comment').querySelector('.comment__replies');
+        let replyContainerStyle = repliesContainer.style.display;
+
+        if (replyContainerStyle === "none") {
+            repliesContainer.style.display = "block"
+            t.innerText = "Ukryj odpowiedzi";
+        } else {
+            repliesContainer.style.display = "none";
+            t.innerText = `Pokaż odpowiedzi (${getReplies && getReplies.length})`;
+        }
+    }
+
+    function replyToCommentCallback(event) {
+        const t = event.target;
+        const replyEditor = event.target.closest('.comment').querySelector('.comment__reply-to');
+        let replyDisplayStyle = replyEditor.style.display;
+
+        if (replyDisplayStyle === "none") {
+            replyEditor.style.display = "block"
+            t.innerText = "Anuluj odpowiedź";
+        } else {
+            if (window.confirm("Czy na pewno chcesz anulować swoją odpowiedź?")) {
+                replyEditor.style.display = "none";
+                t.innerText = "Odpowiedz";
+            }
+        }
     }
 
     return (
-        <article className={user.username === username ? "comment comment--own" : "comment"} key={id}>
+        <article className={`comment ${user.username === username && "comment--own"} ${isReply && "comment--reply"}`} key={id}>
             <section className="comment__header">
                 <div className="comment__info">
                     <div className="comment__user">{username}</div>
@@ -103,12 +135,17 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
                     {user && user.username === username && (
                         <button className="comment__delete" onClick={() => deleteCommentCallback()}><FontAwesomeIcon icon={faTrash} /></button>
                     )}
-                    <button className="comment__reply-button">Pokaż odpowiedzi</button>
-                    <button className="comment__reply-button" onClick={() => replyToCommentCallback()}>Odpowiedz</button>
+                    <button className={`comment__reply-button ${(getReplies && getReplies.length <= 0) && "comment__reply-button--disabled"}`} onClick={(e) => getRepliesCallback(e)} disabled={(getReplies && getReplies.length <= 0) ? true : false}>
+                        {`${(getReplies && getReplies.length > 0) ? `Pokaż odpowiedzi (${getReplies.length})` : "Brak odpowiedzi"}`}
+                    </button>
+                    <button className="comment__reply-button" onClick={(e) => replyToCommentCallback(e)}>Odpowiedz</button>
                 </div>
             </section>
             <section className="comment__reply-to" style={{display: "none"}}>
                 <CreatePost label="Odpowiedz" postId={id} isReply/>
+            </section>
+            <section className="comment__replies" style={{display: "none"}}>
+                <Replies commentId={id} />
             </section>
         </article>
     )
@@ -147,46 +184,6 @@ const MINUS_COMMENT = gql`
 const DELETE_COMMENT = gql`
     mutation deleteComment($commentId: ID!){
         deleteComment(commentId: $commentId)
-    }
-`
-
-const GET_REPLIES = gql`
-    query($commentId: ID!){
-        getReplies(commentId: $commentId){
-            id
-            body
-            username
-            publishingTime
-            plusses {
-                id
-                username
-            }
-            minusses {
-                id
-                username
-            }
-            voteCount
-        }
-    }
-`;
-
-const REPLY_TO_COMMENT = gql`
-    mutation postReplyToComment($commentId: ID!, $body: String!){
-        postReplyToComment(commentId: $commentId, body: $body) {
-            id
-            body
-            username
-            publishingTime
-            plusses {
-                id
-                username
-            }
-            minusses {
-                id
-                username
-            }
-            voteCount
-        }
     }
 `
 

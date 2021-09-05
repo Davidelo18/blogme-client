@@ -98,5 +98,21 @@
             cursor: pointer;
             background-color: #dedede;
         }
+        &--disabled {
+            &:hover {
+                cursor: default;
+                background-color: #eee;
+            }
+        }
+    }
+    &__replies {
+        margin-left: $spacer;
+        margin-top: $spacer-small;
+        @include media-up($md) {
+            margin-left: $spacer-xlarge;
+        }
+    }
+    &--reply {
+        margin-bottom: $spacer-small;
     }
 }
