@@ -12,11 +12,11 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 - [x] Ocenianie komentarzy
 - [x] Odpowiadanie na komentarze
 - [ ] Konfiguracja profilu - avatar, szczegóły itp.
-- [ ] Warstwa wizualna aplikacji
-- [ ] RWD
+- [x] Warstwa wizualna aplikacji
+- [x] RWD
 
 ### Planowana funkcjonalność - rozbudowa aplikacji
-- [ ] Posty i komentarze wieloliniowe
+- [x] Posty i komentarze wieloliniowe
 - [ ] Wstawienie obrazu statycznego (jpg, png) lub gifu jako post lub komentarz
 - [ ] Wstawienie filmu z pliku (mp4, mov) lub np. z YouTube jako post lub komentarz
 - [ ] Lista zablokowanych i obserwowanych użytkowników
@@ -102,3 +102,8 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodano usuwanie komentarzy
 * Refaktoring kodu dotyczący renderowania edytora nowego komentarza lub posta
 * Stworzenie wizualne toolbara dla edytora
+
+##### 5 września 2021r
+* Dodano opcję dodawania odpowiedzi do komentarzy
+* Dodano opcję wyświetlania odpowiedzi
+* Rozpoczęto prace nad edytorem

@@ -12,6 +12,16 @@
             position: relative;
             width: 40px;
             padding: $spacer-small;
+            &:hover {
+                cursor: pointer;
+                background-color: $hover-bg-color;
+            }
+            &.selected {
+                background-color: $hover-bg-color;
+            }
+            svg {
+                pointer-events: none;
+            }
             &--bold {
                 @include tooltip("Pogrubiony tekst");
             }
@@ -29,10 +39,6 @@
             }
             &--spoiler {
                 @include tooltip("Dodaj spoiler (ukryty tekst)");
-            }
-            &:hover {
-                cursor: pointer;
-                background-color: $hover-bg-color;
             }
         }
     }
