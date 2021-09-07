@@ -14,8 +14,8 @@ import Header from './components/Header';
 function App() {
   return (
     <AuthProvider>
-      <Header/>
       <Router>
+        <Header/>
         <NotLoginAuth exact path="/" component={Home}/>
         <AuthRoute exact path="/login" component={Login}/>
         <Route exact path="/wpis/:postId" component={SinglePost}/>

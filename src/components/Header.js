@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { mdQuery } from '../core/Variables';
 import { AuthContext } from '../core/auth';
+import { Link } from 'react-router-dom';
 
 function Header(props) {
     const { user, logout } = useContext(AuthContext);
@@ -12,7 +13,7 @@ function Header(props) {
 
     const menu = user ? (
         <header className="header">
-            <a href="/"><div className="header__logo">blogMe</div></a>
+            <Link to="/"><div className="header__logo">blogMe</div></Link>
             <nav className="header__nav">
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
+import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import { AuthContext } from '../core/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -86,7 +87,7 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
                     {user && user.username === username && (
                         <button className="post__delete" onClick={() => deletePostCallback()}><FontAwesomeIcon icon={faTrash} /></button>
                     )}
-                    {window.location.pathname === "/" && (<a className="post__link" href={`/wpis/${id}`}>Komentarze</a>)}
+                    {window.location.pathname === "/" && (<Link className="post__link" to={`/wpis/${id}`}>Komentarze</Link>)}
                 </div>
             </div>
         </article>
