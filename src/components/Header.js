@@ -6,11 +6,6 @@ import { Link } from 'react-router-dom';
 function Header(props) {
     const { user, logout } = useContext(AuthContext);
 
-    const fullLogout= () => {
-        window.location.pathname = "/login";
-        logout();
-    }
-
     const menu = user ? (
         <header className="header">
             <Link to="/"><div className="header__logo">blogMe</div></Link>
@@ -23,7 +18,7 @@ function Header(props) {
                             <li className="header__option">Tryb nocny</li>
                         </ul>
                     </li>
-                    <li className="header__option" role="button" onClick={fullLogout}>Wyloguj się</li>
+                    <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
                 </ul>
             </nav>
         </header>
