@@ -3,7 +3,7 @@ import { mdQuery } from '../core/Variables';
 import { AuthContext } from '../core/auth';
 import { Link } from 'react-router-dom';
 
-function Header(props) {
+function Header() {
     const { user, logout } = useContext(AuthContext);
 
     const menu = user ? (

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { FETCH_POSTS } from '../core/graphql';
+import { FETCH_POSTS, GET_REPLIES } from '../core/graphql';
 import { GET_POST_COMMENTS } from '../core/graphql';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faUnderline, faLink, faPhotoVideo, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Modal from './Modal';
 
 function CreatePost({label, postId, isReply}) {
     const [values, setValues] = useState({
@@ -57,29 +58,56 @@ function CreatePost({label, postId, isReply}) {
     // nowa odpowiedź
     const [newReply, { replyError }] = useMutation(NEW_REPLY, {
         variables: { commentId: postId, body: values.body },
+        update(proxy, result) {
+            const data = proxy.readQuery({
+                query: GET_REPLIES,
+                variables: {
+                    commentId: postId
+                }
+            });
+            proxy.writeQuery({
+                query: GET_REPLIES,
+                variables: {
+                    commentId: postId
+                },
+                data: {
+                    getReplies: [result.data.postReplyToComment, ...data.getReplies]
+                }
+            });
+            values.body = '';
+            alert("Twoja odpowiedź została dodana");
+        },
         onError(err) {
             console.error(err);
         }
     });
 
+    function newReplyCallback(e) {
+        newReply();
+        const parentComment = e.target.closest('.comment');
+        parentComment.querySelectorAll('.comment__reply-button')[1].textContent = "Odpowiedz";
+        parentComment.querySelector('.comment__reply-to').style.display = "none";
+    }
+
     const onChange = (e) => {
-        const editor = document.querySelector('.new-post__editor');
-        setValues({ ...values, [editor.id]: editor.innerHTML });
+        setValues({ ...values, [e.target.id]: e.target.innerHTML });
         const button = document.querySelector('.new-post__submit');
 
-        editor.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
+        e.target.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
+        e.target.closest('.new-post').querySelector('.new-post__editor').innerHTML = '';
         document.getElementById('body').innerHTML = '';
         postId
-            ? isReply ? newReply() : newComment()
+            ? isReply ? newReplyCallback(e) : newComment()
             : newPost();
     }
 
     /* Edytor treści posta lub komentarza */
 
+    // style pisania w edytorze
     const textStyle = {
         "bold": false,
         "italic": false,
@@ -91,6 +119,7 @@ function CreatePost({label, postId, isReply}) {
         textStyle[style] = value;
     }
 
+    // zaznaczenie wybranej opcji
     function isSelected(btn) {
         const classes = btn.classList;
         if (classes.contains('selected')) {
@@ -102,6 +131,25 @@ function CreatePost({label, postId, isReply}) {
         }
     }
 
+    // pokazanie i ukrycie modala
+    const ref = useRef();
+    const [isShowModal, setIsShowModal] = useState(false);
+    const [modalType, setModalType] = useState("");
+
+    useEffect(() => {
+        const ifClickedOut = (e) => {
+            if(isShowModal && ref.current && !ref.current.contains(e.target)) {
+                setIsShowModal(false);
+            }
+        };
+        document.addEventListener("mousedown", ifClickedOut);
+
+        return () => {
+            document.removeEventListener("mousedown", ifClickedOut);
+        }
+    }, [isShowModal]);
+
+    // funkcje do edycji tekstu
     const boldText = (e) => {
         const t = e.target;
         const editor = t.closest('.new-post').querySelector('.new-post__editor');
@@ -127,17 +175,25 @@ function CreatePost({label, postId, isReply}) {
     }
 
     const addLink = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-        editor.insertAdjacentHTML('beforeend', '<a href="#">Link</a>')
-        onChange();
+        //const t = e.target;
+        //const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        setModalType('link');
+        setIsShowModal(true);
+
+        //editor.insertAdjacentHTML('beforeend', '<a href="#">Link</a>')
+        onChange(e);
     }
 
     const addPhotoVideo = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-        editor.insertAdjacentHTML('beforeend', '<img src="https://icon-library.com/images/64-x-64-icon/64-x-64-icon-3.jpg"/>')
-        onChange();
+        //const t = e.target;
+        //const editor = t.closest('.new-post').querySelector('.new-post__editor');
+
+        setModalType('photo');
+        setIsShowModal(true);
+
+        //editor.insertAdjacentHTML('beforeend', '<img src="https://icon-library.com/images/64-x-64-icon/64-x-64-icon-3.jpg"/>')
+        onChange(e);
     }
 
     const addSpoiler = (e) => {
@@ -171,6 +227,7 @@ function CreatePost({label, postId, isReply}) {
             {replyError && (
                 <div>{(replyError.graphQLErrors[0].message)}</div>
             )}
+            <Modal show={isShowModal} innerRef={ref} type={modalType} />
         </div>
     )
 }
