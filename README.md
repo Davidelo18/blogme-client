@@ -107,3 +107,7 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 * Dodano opcję dodawania odpowiedzi do komentarzy
 * Dodano opcję wyświetlania odpowiedzi
 * Rozpoczęto prace nad edytorem
+
+##### 12 września 2021r
+* Odpowiedzi bez przeładowania strony
+* Wstępna propozycja modala

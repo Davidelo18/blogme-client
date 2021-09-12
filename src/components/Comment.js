@@ -35,22 +35,41 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
 
     const [deleteComment] = useMutation(DELETE_COMMENT, {
         update(proxy) {
-            const data = proxy.readQuery({
-                query: GET_POST_COMMENTS,
-                variables: {
-                    postId
-                }
-            });
+            if (!isReply) {
+                const data = proxy.readQuery({
+                    query: GET_POST_COMMENTS,
+                    variables: {
+                        postId
+                    }
+                });
 
-            proxy.writeQuery({
-                query: GET_POST_COMMENTS,
-                variables: {
-                    postId
-                },
-                data: {
-                    getComments: data.getComments.filter(p => p.id !== id)
-                }
-            });
+                proxy.writeQuery({
+                    query: GET_POST_COMMENTS,
+                    variables: {
+                        postId
+                    },
+                    data: {
+                        getComments: data.getComments.filter(p => p.id !== id)
+                    }
+                });
+            } else {
+                const data = proxy.readQuery({
+                    query: GET_REPLIES,
+                    variables: {
+                        commentId: postId
+                    }
+                });
+
+                proxy.writeQuery({
+                    query: GET_REPLIES,
+                    variables: {
+                        commentId: postId
+                    },
+                    data: {
+                        getReplies: data.getReplies.filter(p => p.id !== id)
+                    }
+                });
+            }
         },
         variables: { commentId: id }
     });

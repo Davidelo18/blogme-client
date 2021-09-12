@@ -68,8 +68,11 @@
         }
     }
     &--reply {
-        background-color: $bg-color;
+        background-color: $comment-color;
         margin: 0;
-        padding-top: $spacer;
+        padding: $spacer 0 $spacer $spacer;
+        @include media-up($md) {
+            padding-left: $spacer-xlarge;
+        }
     }
 }
