@@ -58,3 +58,28 @@ export const GET_REPLIES = gql`
         }
     }
 `;
+
+export const GET_USER_INFO = gql`
+    query($username: String!){
+        getUserInfo(username: $username){
+            username
+            email
+            timeCreated
+            avatar
+            info {
+                name
+                surname
+                birthDate
+                aboutMe
+                facebook
+                instagram
+                youtube
+                website
+            }
+            options {
+                nightTheme
+                canReceiveMessages
+            }
+        }
+    }
+`;

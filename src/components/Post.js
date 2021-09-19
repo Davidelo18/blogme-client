@@ -6,9 +6,9 @@ import ReactHtmlParser from 'react-html-parser';
 import { AuthContext } from '../core/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { FETCH_POSTS } from '../core/graphql';
+import { FETCH_POSTS, GET_USER_INFO } from '../core/graphql';
 
 function Post({ post: { id, username, body, publishingTime, plusses, minusses, voteCount } }) {
     const { user } = useContext(AuthContext);
@@ -18,11 +18,17 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
     const now = moment();
     let postDate;
 
-    if (moment(publishingTime).diff(now, 'days') >= 1) {
-        postDate = moment(publishingTime).fromNow();
+    if (moment(publishingTime).diff(now, 'hours') >= -12) {
+        postDate = moment(publishingTime).calendar();
     } else {
         postDate = moment(publishingTime).format("D MMMM YYYY | H:mm:ss");
     }
+
+    const { data: { getUserInfo } = {} } = useQuery(GET_USER_INFO, {
+        variables: {
+            username
+        }
+    });
 
     const [plusPost] = useMutation(PLUS_POST, {
         variables: { postId: id }
@@ -57,9 +63,11 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
     return (
         <article className={user.username === username ? "post post--own" : "post"}>
             <div className="post__header">
-                <div className="post__avatar"></div>
+                <div className="post__avatar">
+                    <img src={getUserInfo ? getUserInfo.avatar : "https://blogme.pl/avatar.png"} alt="Avatar użytkownika" />
+                </div>
                 <div className="post__info">
-                    <div className="post__user">{username}</div>
+                    <div className="post__user"><Link to={`/user/${username}`}>{username}</Link></div>
                     <div className="post__date">{postDate}</div>
                 </div>
             </div>

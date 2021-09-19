@@ -6,17 +6,20 @@ import { Link } from 'react-router-dom';
 function Header() {
     const { user, logout } = useContext(AuthContext);
 
+
+
     const menu = user ? (
         <header className="header">
             <Link to="/"><div className="header__logo">blogMe</div></Link>
             <nav className="header__nav">
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">
+                    <li className="header__option header__option--user"><Link to={`/user/${user.username}`}>{user.username}</Link></li>
                     <li className="header__option" id="optionsMenu">Opcje<i className="fas fa-angle-down"></i></li>
                     <li className="header__hidden-menu-container" id="menuFor_optionsMenu">
                         <ul className="header__options-container header__options-container--multi header__options-container--hidden">
-                            <li className="header__option">Tryb nocny</li>
-                            <li className="header__option"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
+                            <li className="header__option header__option--inside"><label className="header__label">Tryb nocny <input className="header__checkbox" id="nightTheme" type='checkbox' /></label></li>
+                            <li className="header__option header__option--inside"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
                         </ul>
                     </li>
                     <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
