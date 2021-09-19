@@ -31,13 +31,27 @@
         }
     }
     &__header {
+        display: flex;
         padding: $spacer-xsmall;
         background-color: #cecece;
         border-bottom: 1px solid $focus-color;
     }
+    &__avatar {
+        margin-right: $spacer-xsmall;
+        img {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+        }
+    }
     &__user {
         font-size: 1.1rem;
         font-weight: bold;
+        a {
+            &:hover {
+                color: $text-hover;
+            }
+        }
     }
     &__date {
         font-size: 0.75rem;

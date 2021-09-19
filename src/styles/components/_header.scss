@@ -89,6 +89,10 @@
                 padding-left: $spacer;
                 @include media-up($md) {
                     width: 100%;
+                    padding-left: 0;
+                }
+                a {
+                    display: block;
                 }
             }
         }
@@ -104,12 +108,30 @@
         transform: scale(1,0);
         transform-origin: top;
         transition: 0.15s transform linear;
+        user-select: none;
         @include media-up($md) {
             transform: none;
             transition: background-color 0.2s ease-in;
             &:hover {
                 cursor: pointer;
                 background-color: $mobile-nav-color;
+            }
+        }
+        &--user {
+            font-weight: bold;
+            padding: $spacer-small 0;
+            a {
+                padding: $spacer-small;
+            }
+        }
+        &--inside {
+            padding: 0;
+            label, a {
+                display: block;
+                padding: $spacer-small;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }
@@ -125,6 +147,23 @@
         }
         &.open {
             transform: scale(1,1);
+        }
+    }
+    &__label {
+        position: relative;
+    }
+    &__checkbox {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background-color: #fff;
+        border: 1px solid $main-color;
+        &:checked {
+            background-color: #c49b04;
         }
     }
 }
