@@ -72,6 +72,9 @@
             transform: none;
             background-color: inherit;
         }
+        &--multi {
+            flex-direction: column;
+        }
         &--hidden {
             position: static;
             transform: none;
