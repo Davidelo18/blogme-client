@@ -54,6 +54,7 @@ function AuthProvider(props) {
     dispatch({
       type: 'LOGOUT'
     });
+    window.location.reload(true);
   }
 
   return (

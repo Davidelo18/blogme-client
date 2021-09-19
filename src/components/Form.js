@@ -88,12 +88,6 @@ function Form(props) {
                         <p><label><input type="password" className={registerErrors.confirmPassword ? "form__input form__input--error" : "form__input"} value={values.confirmPassword} onChange={onChange} placeholder="Powtórz hasło" name="confirmPassword"/></label></p>
                     </section>
                     <section>
-                        <p>
-                            <input type="checkbox" id="regulations" name="regulations"/>
-                            <label htmlFor="regulations">Akceptuję regulamin portalu</label>
-                        </p>
-                    </section>
-                    <section>
                         <p><button className="form__button" type="submit">Zarejestruj się</button></p>
                     </section>
                 </form>

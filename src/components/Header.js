@@ -14,8 +14,9 @@ function Header() {
                 <ul className="header__options-container" id="menuList">
                     <li className="header__option" id="optionsMenu">Opcje<i className="fas fa-angle-down"></i></li>
                     <li className="header__hidden-menu-container" id="menuFor_optionsMenu">
-                        <ul className="header__options-container header__options-container--hidden">
+                        <ul className="header__options-container header__options-container--multi header__options-container--hidden">
                             <li className="header__option">Tryb nocny</li>
+                            <li className="header__option"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
                         </ul>
                     </li>
                     <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
