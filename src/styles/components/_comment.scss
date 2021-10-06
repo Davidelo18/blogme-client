@@ -8,18 +8,26 @@
 .comment {
     $component: &;
     margin-bottom: $spacer-large;
-    background-color: $comment-color;
+    @include themed() {
+        background-color: t(comment-color);
+    }
     &--own {
-        background-color: $owner-comment-color;
+        @include themed() {
+            background-color: t(owner-comment-color);
+        }
         #{$component}__header,
         #{$component}__footer {
-            background-color: $owner-comment-header-color;
+            @include themed() {
+                background-color: t(owner-comment-header-color);
+            }
         }
     }
     &__header,
     &__footer {
         padding: $spacer-xsmall $spacer-small;
-        background-color: $comment-header-color;
+        @include themed() {
+            background-color: t(comment-header-color);
+        }
     }
     &__user {
         font-size: 1.1rem;
@@ -41,34 +49,49 @@
         &-result {
             margin-right: 5px;
             &--positive {
-                color: #0b8c04;
+                @include themed() {
+                    color: t(green-color);
+                }
             }
             &--negative {
-                color: #8c1b04;
+                @include themed() {
+                    color: t(red-color);
+                }
             }
         }
         &-button {
             margin-left: 3px;
             width: 20px;
             height: 20px;
-            color: $text-color;
             transition: filter 0.15s ease-in;
             border: 1px solid transparent;
+            @include themed() {
+                background-color: t(post-color);
+                color: t(text-color);
+            }
             &:hover {
                 cursor: pointer;
                 filter: brightness(85%);
             }
             &--plus {
-                border-color: #0b8c04;
+                @include themed() {
+                    border-color: t(green-color);
+                }
                 &.voted {
-                    background-color: #0b8c04;
+                    @include themed() {
+                        background-color: t(green-color);
+                    }
                     color: #fff;
                 }
             }
             &--minus {
-                border-color: #8c1b04;
+                @include themed() {
+                    border-color: t(red-color);
+                }
                 &.voted {
-                    background-color: #8c1b04;
+                    @include themed() {
+                        background-color: t(red-color);
+                    }
                     color: #fff;
                 }
             }

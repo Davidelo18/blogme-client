@@ -111,3 +111,11 @@ Frontowa części aplikacji blogMe. Aplikacja docelowo ma być portalem społecz
 ##### 12 września 2021r
 * Odpowiedzi bez przeładowania strony
 * Wstępna propozycja modala
+
+##### 18 września 2021r
+* Po stronie serwera dodano możliwość wysyłania wiadomości
+* Dodano opcje użytkownika oraz informacje
+
+##### 19 września 2021r
+* Avatary (domyślne) + próba implementacji zmiany avatara
+* Utworzenie strony SingleUser

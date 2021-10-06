@@ -18,11 +18,19 @@ button {
 }
 
 body {
-    background-color: $bg-color;
-    color:#242424;
+    @include themed() {
+        background-color: t(bg-color);
+        color: t(text-color);
+    }
     font-family: 'Lato', sans-serif;
-    &.dark {
-        background-color: $bg-color_dark;
+}
+
+* {
+    &::selection,
+    &::-moz-selection {
+        @include themed() {
+            background-color: t(switch-btn-color);
+        }
     }
 }
 

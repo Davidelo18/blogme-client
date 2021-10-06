@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
-import { mdQuery } from '../core/Variables';
 import { AuthContext } from '../core/auth';
 import { Link } from 'react-router-dom';
 
 function Header() {
     const { user, logout } = useContext(AuthContext);
-
-
 
     const menu = user ? (
         <header className="header">
@@ -15,13 +12,7 @@ function Header() {
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">
                     <li className="header__option header__option--user"><Link to={`/user/${user.username}`}>{user.username}</Link></li>
-                    <li className="header__option" id="optionsMenu">Opcje<i className="fas fa-angle-down"></i></li>
-                    <li className="header__hidden-menu-container" id="menuFor_optionsMenu">
-                        <ul className="header__options-container header__options-container--multi header__options-container--hidden">
-                            <li className="header__option header__option--inside"><label className="header__label">Tryb nocny <input className="header__checkbox" id="nightTheme" type='checkbox' /></label></li>
-                            <li className="header__option header__option--inside"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
-                        </ul>
-                    </li>
+                    <li className="header__option" id="optionsMenu"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
                     <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
                 </ul>
             </nav>
@@ -44,34 +35,6 @@ window.addEventListener('DOMContentLoaded', () => {
         $burgerBtn.addEventListener('click', () => {
             $burgerBtn.classList.toggle('menu-opened');
             $menuList.classList.toggle('open');
-        });
-    }
-
-    const $optionsMenu = document.getElementById('optionsMenu');
-
-    if ($optionsMenu) {
-        $optionsMenu.addEventListener('click', () => {
-            const $menuForOptionsMenu = document.getElementById(`menuFor_optionsMenu`);
-            const numberOfChildren = $menuForOptionsMenu.querySelector('ul').childElementCount;
-
-            $menuForOptionsMenu.classList.toggle('open');
-
-            if (mdQuery.matches) {
-                $menuForOptionsMenu.style.maxHeight = null;
-                $menuForOptionsMenu.style.left = `-${$optionsMenu.offsetWidth + 20}px`;
-            } else {
-                $menuForOptionsMenu.style.left = null;
-                if ($menuForOptionsMenu.classList.contains('open')) $menuForOptionsMenu.style.maxHeight = `${numberOfChildren * 39}px`;
-                else $menuForOptionsMenu.style.maxHeight = 0;
-            }
-
-            window.addEventListener('resize', () => {
-                $menuForOptionsMenu.classList.remove('open');
-                if (!mdQuery.matches) {
-                    $menuForOptionsMenu.style.left = null;
-                    $menuForOptionsMenu.style.maxHeight = null;
-                }
-            });
         });
     }
 });

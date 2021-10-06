@@ -7,6 +7,9 @@
     box-shadow: 2px 2px 15px 2px #606060;
     text-align: center;
     overflow-x: hidden;
+    @include themed() {
+        background-color: t(form-bg-color);
+    }
     &__container {
         position: relative;
         width: 100%;
@@ -29,24 +32,30 @@
         padding: $spacer-small;
         font-size: 1rem;
         margin-bottom: $spacer-xsmall;
-        background-color: #fefefe;
-        color: $text-color;
         border: 1px solid #606060;
         border-radius: 6px;
+        @include themed() {
+            background-color: t(bg-color);
+            color: t(text-color);
+        }
         &--error {
             background-color: $light-red;
         }
     }
     &__button {
         padding: $spacer-small;
-        background-color: darken($main-color, 6);
         color: #fff;
         border-radius: 6px;
         font-size: 1rem;
         transition: background-color 0.2s linear;
+        @include themed() {
+            background-color: t(main-color);
+        }
         &:hover {
             cursor: pointer;
-            background-color: darken($main-color, 1);
+            @include themed() {
+                background-color: darken(t(main-color), 5);
+            }
         }
         &--switch {
             position: absolute;
@@ -55,9 +64,13 @@
             transform: translateX(-50%);
             width: 60%;
             padding: $spacer-xsmall;
-            background-color: #ab6b0a;
+            @include themed() {
+                background-color: t(switch-btn-color);
+            }
             &:hover {
-                background-color: #bc7c1b;
+                @include themed() {
+                    background-color: darken(t(switch-btn-color), 5);
+                }
             }
         }
     }

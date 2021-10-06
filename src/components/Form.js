@@ -139,6 +139,9 @@ const REGISTER_USER = gql`
             username
             timeCreated
             token
+            options {
+                nightTheme
+            }
         }
     }
 `;
@@ -157,6 +160,9 @@ const LOGIN_USER = gql`
             username
             timeCreated
             token
+            options {
+                nightTheme
+            }
         }
     }
 `;

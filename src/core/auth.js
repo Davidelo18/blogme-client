@@ -43,6 +43,7 @@ function AuthProvider(props) {
 
   function login(data) {
     localStorage.setItem('loginToken', data.token);
+    localStorage.setItem('nightTheme', data.options.nightTheme);
     dispatch({
       type: 'LOGIN',
       payload: data

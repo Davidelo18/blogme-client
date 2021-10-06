@@ -13,6 +13,17 @@ import SingleUser from './pages/SingleUser';
 import Header from './components/Header';
 
 function App() {
+  const isNightTheme = localStorage.getItem('nightTheme');
+  const mainDivClasses = document.getElementsByTagName('html')[0].classList;
+
+  if (isNightTheme) {
+    mainDivClasses.add('theme-dark');
+    mainDivClasses.remove('theme-light');
+  } else {
+    mainDivClasses.add('theme-light');
+    mainDivClasses.remove('theme-dark');
+  }
+
   return (
     <AuthProvider>
       <Router>

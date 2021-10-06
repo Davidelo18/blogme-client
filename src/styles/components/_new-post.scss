@@ -2,22 +2,30 @@
     $component: &;
     margin: $spacer-small 0;
     &__content {
-        border: 1px solid $main-color;
+        @include themed() {
+            border: 1px solid t(main-color);
+        }
     }
     &__toolbar {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid $main-color;
+        @include themed() {
+            border: 1px solid t(main-color);
+        }
         &-option {
             position: relative;
             width: 40px;
             padding: $spacer-small;
             &:hover {
                 cursor: pointer;
-                background-color: $hover-bg-color;
+                @include themed() {
+                    background-color: t(hover-bg-color);
+                }
             }
             &.selected {
-                background-color: $hover-bg-color;
+                @include themed() {
+                    background-color: t(hover-bg-color);
+                }
             }
             svg {
                 pointer-events: none;
@@ -51,24 +59,30 @@
     }
     &__submit {
         display: block;
-        background-color: $mobile-nav-color;
         color: #fff;
         margin: $spacer-xsmall auto 0;
         padding: $spacer-small;
         border-radius: 6px;
         font-size: 1rem;
         transition: background-color 0.3s ease-in;
+        @include themed() {
+            background-color: t(mobile-nav-color);
+        }
         @include media-up($md) {
             margin-left: auto;
             margin-right: 0;
         }
         &:hover {
             cursor: pointer;
-            background-color: $hidden-menu-color;
+            @include themed() {
+                background-color: t(hidden-menu-color);
+            }
         }
     }
     &--reply {
-        background-color: $comment-color;
+        @include themed() {
+            background-color: t(comment-color);
+        }
         margin: 0;
         padding: $spacer 0 $spacer $spacer;
         @include media-up($md) {

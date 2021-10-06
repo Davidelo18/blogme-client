@@ -9,31 +9,80 @@ $xxl: 2000px;
 
 /* ===== [KOLORY] ===== */
 
+$themes: (
+    light: (
+        bg-color: #f0f0f0,
+        hover-bg-color: #d0d0d0,
+        text-color: #242424,
+        text-hover: #363636,
+        tooltip-color: #353535,
+
+        main-color: #118699,
+        mobile-nav-color: #007588,
+        hidden-menu-color: #006477,
+
+        form-bg-color: #e0e0e0,
+        switch-btn-color: #bc7c1b,
+
+        post-color: #fefefe,
+        post-header-color: #cecece,
+
+        green-color: #0b8c04,
+        red-color: #8c1b04,
+
+        comment-color: #dfdfdf,
+        owner-comment-color: #b3e9f2,
+        comment-header-color: #cfcfcf,
+        owner-comment-header-color: #9fb2b5,
+    ),
+    dark: (
+        bg-color: #303030,
+        hover-bg-color: #d0d0d0,
+        text-color: #fefefe,
+        text-hover: #363636,
+        tooltip-color: #353535,
+
+        main-color: #118699,
+        mobile-nav-color: #007588,
+        hidden-menu-color: #006477,
+
+        form-bg-color: #505050,
+        switch-btn-color: #bc7c1b,
+
+        post-color: #6e6e6e,
+        post-header-color: #4e4e4e,
+
+        green-color: #0ea106,
+        red-color: #ed2e07,
+
+        comment-color: #5e5e5e,
+        owner-comment-color: #1c6673,
+        comment-header-color: #4e4e4e,
+        owner-comment-header-color: #4e4e4e,
+    ),
+);
+
+@mixin themed() {
+    @each $theme, $map in $themes {
+        .theme-#{$theme} & {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+@function t($key) {
+    @return map-get($theme-map, $key);
+}
+
 $focus-color: #3c3c3c;
 $red: #ad1f0c;
 $light-red: #fae2de;
-
-// Tryb dzienny
-$bg-color: #f0f0f0;
-$hover-bg-color: #d0d0d0;
-$text-color: #242424;
-$text-hover: #363636;
-$tooltip-color: #353535;
-
-$main-color: #118699;
-$mobile-nav-color: #007588;
-$hidden-menu-color: #006477;
-
-$form-color: #c1e3e8;
-
-$comment-color: #dfdfdf;
-$owner-comment-color: #b3e9f2;
-$comment-header-color: #cfcfcf;
-$owner-comment-header-color: #9fb2b5;
-
-// Tryb nocny
-$bg-color_dark: #2c2c2c;
-$text-color_dark: #fefefe;
 
 /* ===== [ODSTĘPY] ===== */
 $spacer-xsmall: 5px;

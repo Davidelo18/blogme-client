@@ -1,13 +1,20 @@
 .post {
     margin: $spacer 0;
-    background-color: #fefefe;
-    border-top: 2px solid $main-color;
-    border-bottom: 2px solid $main-color;
+    @include themed() {
+        background-color: t(post-color);
+        color: t(text-color);
+        border-top: 2px solid t(main-color);
+        border-bottom: 2px solid t(main-color);
+    }
     @include media-up($xl) {
-        border: 2px solid $main-color;
+        @include themed() {
+            border: 2px solid t(main-color);
+        }
     }
     &--own {
-        background-color: $owner-comment-color;
+        @include themed() {
+            background-color: t(owner-comment-color);
+        }
     }
     &__loading {
         display: flex;
@@ -33,8 +40,10 @@
     &__header {
         display: flex;
         padding: $spacer-xsmall;
-        background-color: #cecece;
         border-bottom: 1px solid $focus-color;
+        @include themed() {
+            background-color: t(post-header-color);
+        }
     }
     &__avatar {
         margin-right: $spacer-xsmall;
@@ -49,7 +58,9 @@
         font-weight: bold;
         a {
             &:hover {
-                color: $text-hover;
+                @include themed() {
+                    color: t(text-hover);
+                }
             }
         }
     }
@@ -64,34 +75,49 @@
         &-result {
             margin-right: 5px;
             &--positive {
-                color: #0b8c04;
+                @include themed() {
+                    color: t(green-color);
+                }
             }
             &--negative {
-                color: #8c1b04;
+                @include themed() {
+                    color: t(red-color);
+                }
             }
         }
         &-button {
             margin-left: 3px;
             width: 20px;
             height: 20px;
-            color: $text-color;
             transition: filter 0.15s ease-in;
             border: 1px solid transparent;
+            @include themed() {
+                background-color: t(post-color);
+                color: t(text-color);
+            }
             &:hover {
                 cursor: pointer;
                 filter: brightness(85%);
             }
             &--plus {
-                border-color: #0b8c04;
+                @include themed() {
+                    border-color: t(green-color);
+                }
                 &.voted {
-                    background-color: #0b8c04;
+                    @include themed() {
+                        background-color: t(green-color);
+                    }
                     color: #fff;
                 }
             }
             &--minus {
-                border-color: #8c1b04;
+                @include themed() {
+                    border-color: t(red-color);
+                }
                 &.voted {
-                    background-color: #8c1b04;
+                    @include themed() {
+                        background-color: t(red-color);
+                    }
                     color: #fff;
                 }
             }
@@ -99,12 +125,16 @@
     }
     &__link {
         display: block;
-        background-color: $mobile-nav-color;
         color: #fff;
         padding: $spacer-xsmall;
         transition: background-color 0.2s ease-in;
+        @include themed() {
+            background-color: t(mobile-nav-color);
+        }
         &:hover {
-            background-color: $hidden-menu-color;
+            @include themed() {
+                background-color: t(hidden-menu-color);
+            }
         }
     }
     &__footer {
@@ -112,8 +142,10 @@
         justify-content: space-between;
         align-items: center;
         padding: $spacer-xsmall;
-        background-color: #dedede;
         border-top: 1px solid $focus-color;
+        @include themed() {
+            background-color: t(post-header-color);
+        }
     }
     &__comments {
         display: flex;
@@ -122,8 +154,10 @@
         margin-right: $spacer-small;
         background-color: transparent;
         font-size: 20px;
-        color: $red;
         transition: color 0.25s ease-in;
+        @include themed() {
+            color: t(red-color);
+        }
         &:hover {
             cursor: pointer;
             color: lighten($red, 10);

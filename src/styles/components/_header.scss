@@ -5,7 +5,9 @@
     position: fixed;
     z-index: 10;
     width: 100%;
-    background-color: $main-color;
+    @include themed() {
+        background-color: t(main-color);
+    }
     color: #fff;
     padding: $spacer-small;
     &__logo {
@@ -62,7 +64,6 @@
         top: 100%;
         z-index: 5;
         width: 100%;
-        background-color: $mobile-nav-color;
         transform: scale(1,0);
         transform-origin: top;
         transition: 0.3s transform linear;
@@ -78,7 +79,9 @@
         &--hidden {
             position: static;
             transform: none;
-            background-color: $hidden-menu-color;
+            @include themed() {
+                background-color: t(hidden-menu-color);
+            }
             @include media-up($md) {
                 position: absolute;
                 left: 0;
@@ -114,7 +117,9 @@
             transition: background-color 0.2s ease-in;
             &:hover {
                 cursor: pointer;
-                background-color: $mobile-nav-color;
+                @include themed() {
+                    background-color: t(mobile-nav-color);
+                }
             }
         }
         &--user {
@@ -161,7 +166,9 @@
         width: 15px;
         height: 15px;
         background-color: #fff;
-        border: 1px solid $main-color;
+        @include themed() {
+            border: 1px solid t(main-color);
+        }
         &:checked {
             background-color: #c49b04;
         }
