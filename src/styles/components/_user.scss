@@ -31,7 +31,7 @@
         li {
             display: flex;
             align-items: center;
-            padding-bottom: $spacer-xsmall;
+            padding: $spacer-small 0;
             border-bottom: 1px dotted #999;
             &:last-child {
                 border: none;

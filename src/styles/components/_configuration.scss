@@ -1,0 +1,77 @@
+.configuration {
+    display: flex;
+    flex-direction: column;
+    margin: $spacer;
+    @include media-up($md) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    &__title {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0 auto $spacer;
+        padding: $spacer-small 0;
+        font-size: 2rem;
+        @include themed() {
+            border-bottom: 1px solid t(switch-btn-color);
+        }
+        @include media-up($md) {
+            width: 300px;
+        }
+    }
+    &__input-section {
+        display: flex;
+        flex-direction: column;
+        padding: $spacer-small 0;
+        @include media-up($md) {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: $spacer 0;
+        }
+        &:last-child {
+            border: none;
+        }
+    }
+    &__label {
+        margin-bottom: $spacer-xsmall;
+        font-weight: 600;
+        @include media-up($md) {
+            width: 180px;
+            margin: 0;
+        }
+    }
+    &__input {
+        padding: $spacer-xsmall;
+        width: 100%;
+        @include media-up($md) {
+            width: 300px;
+        }
+        &--textarea {
+            height: 150px;
+        }
+    }
+    &__message {
+        text-align: center;
+        font-weight: 600;
+        @include themed() {
+            color: t(switch-btn-color);
+        }
+    }
+    &__button {
+        padding: $spacer-small;
+        border-radius: 6px;
+        transition: background-color 0.2s ease-in;
+        @include themed() {
+            background-color: t(main-color);
+            color: t(text-color);
+        }
+        &:hover {
+            cursor: pointer;
+            @include themed() {
+                background-color: t(hidden-menu-color);
+            }
+        }
+    }
+}
