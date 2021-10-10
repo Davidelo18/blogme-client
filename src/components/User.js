@@ -15,8 +15,8 @@ function User({ user: { username, email, timeCreated, avatar, info, options } })
                 <div className="user__nick">{username}</div>
             </div>
             <div className="user__body">
-                {(options.canReceiveMessages && username !== user.username)  && (<button>Wyślij prywatną wiadomość</button>)}
-                {username === user.username && (<Link to={`/user/${username}/konfiguracja`}>Konfiguracja profilu</Link>)}
+                {(options.canReceiveMessages && username !== user.username)  && (<Link className="user__configuration-link" to={`/message/${username}`}>Wyślij prywatną wiadomość</Link>)}
+                {username === user.username && (<Link className="user__configuration-link" to={`/user/${username}/konfiguracja`}>Konfiguracja profilu</Link>)}
                 <ul className="user__basic">
                     <li><span className="user__label">Email: </span>{email}</li>
                     <li><span className="user__label">Data dołączenia: </span>{moment(timeCreated).format("D MMMM YYYY")}</li>
