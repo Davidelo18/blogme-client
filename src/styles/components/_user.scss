@@ -1,0 +1,52 @@
+.user {
+    margin: $spacer-small;
+    &__header {
+        display: flex;
+        align-items: center;
+        padding-bottom: $spacer-small;
+        @include themed() {
+            border-bottom: 1px solid t(switch-btn-color);
+        }
+    }
+    &__avatar {
+        width: 60px;
+        height: 60px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__nick {
+        margin-left: $spacer-small;
+        font-size: 1.7rem;
+    }
+    &__configuration-link {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: $spacer;
+    }
+    &__basic,
+    &__info {
+        li {
+            display: flex;
+            align-items: center;
+            padding-bottom: $spacer-xsmall;
+            border-bottom: 1px dotted #999;
+            &:last-child {
+                border: none;
+            }
+        }
+    }
+    &__basic {
+        margin-bottom: $spacer;
+    }
+    &__label {
+        display: inline-block;
+        width: 100px;
+        font-weight: 600;
+        @include media-up($md) {
+            width: 180px;
+        }
+    }
+}

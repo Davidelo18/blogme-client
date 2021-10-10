@@ -67,11 +67,16 @@
         transform: scale(1,0);
         transform-origin: top;
         transition: 0.3s transform linear;
+        @include themed() {
+            background-color: t(hidden-menu-color);
+        }
         @include media-up($md) {
             display: flex;
             position: static;
             transform: none;
-            background-color: inherit;
+            @include themed() {
+                background-color: t(main-color);
+            }
         }
         &--multi {
             flex-direction: column;
