@@ -22,14 +22,14 @@ function User({ user: { username, email, timeCreated, avatar, info, options } })
                     <li><span className="user__label">Data dołączenia: </span>{moment(timeCreated).format("D MMMM YYYY")}</li>
                 </ul>
                 <ul className="user__info">
-                    {info.aboutMe !== "" && (<li><span className="user__label">O mnie: </span>{info.aboutMe}</li>)}
-                    {info.name !== "" && (<li><span className="user__label">Imię: </span>{info.name}</li>)}
-                    {info.surname !== "" && (<li><span className="user__label">Nazwisko: </span>{info.surname}</li>)}
-                    {info.birthDate !== "" && (<li><span className="user__label">Data urodzenia: </span>{moment(info.birthDate).format("D MMMM YYYY")}</li>)}
-                    {info.facebook !== "" && (<li><span className="user__label">Facebook: </span>{info.facebook}</li>)}
-                    {info.instagram !== "" && (<li><span className="user__label">Instagram: </span>{info.instagram}</li>)}
-                    {info.youtube !== "" && (<li><span className="user__label">Youtube: </span>{info.youtube}</li>)}
-                    {info.website !== "" && (<li><span className="user__label">Strona internetowa: </span>{info.website}</li>)}
+                    {info.aboutMe && (<li><span className="user__label">O mnie: </span>{info.aboutMe}</li>)}
+                    {info.name && (<li><span className="user__label">Imię: </span>{info.name}</li>)}
+                    {info.surname && (<li><span className="user__label">Nazwisko: </span>{info.surname}</li>)}
+                    {info.birthDate && (<li><span className="user__label">Data urodzenia: </span>{moment(info.birthDate).format("D MMMM YYYY")}</li>)}
+                    {info.facebook && (<li><span className="user__label">Facebook: </span>{info.facebook}</li>)}
+                    {info.instagram && (<li><span className="user__label">Instagram: </span>{info.instagram}</li>)}
+                    {info.youtube && (<li><span className="user__label">Youtube: </span>{info.youtube}</li>)}
+                    {info.website && (<li><span className="user__label">Strona internetowa: </span>{info.website}</li>)}
                 </ul>
             </div>
         </section>
