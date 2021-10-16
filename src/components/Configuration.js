@@ -43,10 +43,7 @@ function Configuration({ user: { info, options } }) {
     };
 
     const [setUserOptions] = useMutation(SET_USER_OPTIONS, {
-        variables: optionsValues,
-        update() {
-            alert("Informacje o Tobie zostały zmienione")
-        }
+        variables: optionsValues
     });
 
     const onOptionChange = (e) => {
@@ -58,7 +55,17 @@ function Configuration({ user: { info, options } }) {
 
     const onOptionSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem("nightTheme", optionsValues.nightTheme);
+        localStorage.setItem('nightTheme', optionsValues.nightTheme);
+
+        const mainDivClasses = document.getElementsByTagName('html')[0].classList;
+        if (optionsValues.nightTheme) {
+            mainDivClasses.add('theme-dark');
+            mainDivClasses.remove('theme-light');
+        } else {
+            mainDivClasses.add('theme-light');
+            mainDivClasses.remove('theme-dark');
+        }
+
         setUserOptions();
     };
 

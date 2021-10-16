@@ -4,6 +4,12 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^30.0.0",
+    "@ckeditor/ckeditor5-build-inline": "^30.0.0",
+    "@ckeditor/ckeditor5-dev-webpack-plugin": "^25.4.4",
+    "@ckeditor/ckeditor5-editor-inline": "^30.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.3",
+    "@editorjs/editorjs": "^2.22.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",

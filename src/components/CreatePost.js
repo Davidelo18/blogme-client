@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { FETCH_POSTS, GET_REPLIES } from '../core/graphql';
 import { GET_POST_COMMENTS } from '../core/graphql';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBold, faItalic, faUnderline, faLink, faPhotoVideo, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import Modal from './Modal';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import '@ckeditor/ckeditor5-build-classic/build/translations/pl';
 
 function CreatePost({label, postId, isReply}) {
     const [values, setValues] = useState({
@@ -89,133 +89,33 @@ function CreatePost({label, postId, isReply}) {
         parentComment.querySelector('.comment__reply-to').style.display = "none";
     }
 
-    const onChange = (e) => {
-        setValues({ ...values, [e.target.id]: e.target.innerHTML });
+    const onChange = (data) => {
+        setValues({ ...values, body: data });
         const button = document.querySelector('.new-post__submit');
-
-        e.target.innerText.trim() === '' ? button.disabled = true : button.disabled = false;
+        data === '' ? button.disabled = true : button.disabled = false;
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        e.target.closest('.new-post').querySelector('.new-post__editor').innerHTML = '';
-        document.getElementById('body').innerHTML = '';
+        //document.getElementById('body').innerHTML = '';
         postId
             ? isReply ? newReplyCallback(e) : newComment()
             : newPost();
     }
 
-    /* Edytor treści posta lub komentarza */
-
-    // style pisania w edytorze
-    const textStyle = {
-        "bold": false,
-        "italic": false,
-        "underline": false,
-        "spoiler": false
-    }
-
-    function setTextStyle(style, value) {
-        textStyle[style] = value;
-    }
-
-    // zaznaczenie wybranej opcji
-    function isSelected(btn) {
-        const classes = btn.classList;
-        if (classes.contains('selected')) {
-            classes.remove('selected');
-            return true;
-        } else {
-            classes.add('selected');
-            return false;
-        }
-    }
-
-    // pokazanie i ukrycie modala
-    const ref = useRef();
-    const [isShowModal, setIsShowModal] = useState(false);
-    const [modalType, setModalType] = useState("");
-
-    useEffect(() => {
-        const ifClickedOut = (e) => {
-            if(isShowModal && ref.current && !ref.current.contains(e.target)) {
-                setIsShowModal(false);
-            }
-        };
-        document.addEventListener("mousedown", ifClickedOut);
-
-        return () => {
-            document.removeEventListener("mousedown", ifClickedOut);
-        }
-    }, [isShowModal]);
-
-    // funkcje do edycji tekstu
-    const boldText = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        isSelected(t) ? setTextStyle('bold', false) : setTextStyle('bold', true);
-        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
-    }
-
-    const italicText = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        isSelected(t) ? setTextStyle('italic', false) : setTextStyle('italic', true);
-        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
-    }
-
-    const underlineText = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        isSelected(t) ? setTextStyle('underline', false) : setTextStyle('underline', true);
-        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
-    }
-
-    const addLink = (e) => {
-        //const t = e.target;
-        //const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        setModalType('link');
-        setIsShowModal(true);
-
-        //editor.insertAdjacentHTML('beforeend', '<a href="#">Link</a>')
-        onChange(e);
-    }
-
-    const addPhotoVideo = (e) => {
-        //const t = e.target;
-        //const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        setModalType('photo');
-        setIsShowModal(true);
-
-        //editor.insertAdjacentHTML('beforeend', '<img src="https://icon-library.com/images/64-x-64-icon/64-x-64-icon-3.jpg"/>')
-        onChange(e);
-    }
-
-    const addSpoiler = (e) => {
-        const t = e.target;
-        const editor = t.closest('.new-post').querySelector('.new-post__editor');
-
-        isSelected(t) ? setTextStyle('spoiler', false) : setTextStyle('spoiler', true);
-        editor.setAttribute('js-text-options', encodeURIComponent(JSON.stringify(textStyle)));
-    }
-
     return (
         <div className={isReply ? "new-post new-post--reply" : "new-post"}>
             <section className="new-post__content">
-                <div className="new-post__toolbar">
-                    <button className="new-post__toolbar-option new-post__toolbar-option--bold" onClick={boldText}><FontAwesomeIcon icon={faBold}/></button>
-                    <button className="new-post__toolbar-option new-post__toolbar-option--italic" onClick={italicText}><FontAwesomeIcon icon={faItalic}/></button>
-                    <button className="new-post__toolbar-option new-post__toolbar-option--underline" onClick={underlineText}><FontAwesomeIcon icon={faUnderline}/></button>
-                    <button className="new-post__toolbar-option new-post__toolbar-option--link" onClick={addLink}><FontAwesomeIcon icon={faLink}/></button>
-                    <button className="new-post__toolbar-option new-post__toolbar-option--photovideo" onClick={addPhotoVideo}><FontAwesomeIcon icon={faPhotoVideo}/></button>
-                    <button className="new-post__toolbar-option new-post__toolbar-option--spoiler" onClick={addSpoiler}><FontAwesomeIcon icon={faEyeSlash}/></button>
-                </div>
-                <div className="new-post__editor" contentEditable="true" value={values.body} onInput={onChange} id="body" js-text-options={encodeURIComponent(JSON.stringify(textStyle))}></div>
+                <CKEditor editor={ClassicEditor}
+                    config={{
+                        language: 'pl',
+                        toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'link']
+                    }}
+                    onChange={ ( event, editor ) => {
+                        const data = editor.getData();
+                        onChange(data);
+                    } }
+                />
             </section>
             <button className="new-post__submit" onClick={onSubmit}>{label}</button>
             {postError && (
@@ -227,7 +127,6 @@ function CreatePost({label, postId, isReply}) {
             {replyError && (
                 <div>{(replyError.graphQLErrors[0].message)}</div>
             )}
-            <Modal show={isShowModal} innerRef={ref} type={modalType} />
         </div>
     )
 }
