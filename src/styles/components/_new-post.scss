@@ -56,6 +56,22 @@
         background-color: #fff;
         padding: $spacer-xsmall;
         overflow-y: scroll;
+        @include themed() {
+            background-color: t(input-color) !important;
+            color: t(text-color) !important;
+        }
+    }
+    .ck-toolbar_grouping {
+        @include themed() {
+            background-color: t(input-header-color) !important;
+            color: t(text-color) !important;
+        }
+        svg,
+        .ck-button__label {
+            @include themed() {
+                color: t(text-color) !important;
+            }
+        }
     }
     &__submit {
         display: block;
