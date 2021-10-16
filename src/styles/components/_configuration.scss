@@ -45,11 +45,19 @@
     &__input {
         padding: $spacer-xsmall;
         width: 100%;
+        @include themed() {
+            background-color: t(input-color);
+            color: t(text-color);
+            border: 1px solid t(text-color);
+        }
         @include media-up($md) {
             width: 300px;
         }
         &--textarea {
             height: 150px;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.9rem;
         }
     }
     &__message {
@@ -63,9 +71,9 @@
         padding: $spacer-small;
         border-radius: 6px;
         transition: background-color 0.2s ease-in;
+        color: #fff;
         @include themed() {
             background-color: t(main-color);
-            color: t(text-color);
         }
         &:hover {
             cursor: pointer;

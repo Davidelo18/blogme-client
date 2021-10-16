@@ -17,7 +17,7 @@ function App() {
   const isNightTheme = localStorage.getItem('nightTheme');
   const mainDivClasses = document.getElementsByTagName('html')[0].classList;
 
-  if (isNightTheme) {
+  if (isNightTheme === "true") {
     mainDivClasses.add('theme-dark');
     mainDivClasses.remove('theme-light');
   } else {
