@@ -47,7 +47,7 @@ function Messanger() {
     }
 
     // Pobranie wiadomości
-    const [ getMessages, { loading: messagesLoading, data: messagesData }] = useLazyQuery(GET_MESSAGES);
+    const [ getMessages, { data: messagesData }] = useLazyQuery(GET_MESSAGES);
 
     function callbackSetSelectedUser(e, username) {
         setSelectedUser(username);
@@ -70,7 +70,7 @@ function Messanger() {
         if (selectedUser) {
             getMessages({ variables: { messagesFrom: selectedUser } })
         }
-    }, [selectedUser]);
+    }, [selectedUser, getMessages]);
 
     // Pokaż czas wysłania wiadomości
     function showTime(e) {
