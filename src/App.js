@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import SinglePost from './pages/SinglePost';
 import SingleUser from './pages/SingleUser';
 import UserConfiguration from './pages/UserConfiguration';
+import Message from './pages/Message';
 
 import Header from './components/Header';
 
@@ -34,6 +35,7 @@ function App() {
         <NotLoginAuth exact path="/wpis/:postId" component={SinglePost}/>
         <NotLoginAuth exact path="/user/:username" component={SingleUser}/>
         <NotLoginAuth exact path="/user/:username/konfiguracja" component={UserConfiguration}/>
+        <NotLoginAuth exact path="/message" component={Message}/>
       </Router>
     </AuthProvider>
   );
