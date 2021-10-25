@@ -24,6 +24,7 @@ function Form(props) {
         update(proxy, { data: { register: userData } }) {
             context.login(userData);
             window.location.pathname = "/";
+            window.location.reload(true);
         },
         onError(err) {
             setRegisterErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -35,6 +36,7 @@ function Form(props) {
         update(proxy, { data: { login: userData } }) {
             context.login(userData);
             window.location.pathname = "/";
+            window.location.reload(true);
         },
         onError(err) {
             setLoginErrors(err.graphQLErrors[0].extensions.exception.errors);
