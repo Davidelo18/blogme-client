@@ -1,6 +1,33 @@
 .messanger {
+    $component: &;
+    @mixin scrollbar {
+        /* ===== Scrollbar CSS ===== */
+        scrollbar-width: thin;
+        @include themed() {
+            scrollbar-color: t(hover-bg-color) t(bg-color);
+        }
+        /* Chrome, Edge, and Safari */
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            @include themed() {
+                background: t(bg-color);
+            }
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @include themed() {
+                background-color: t(hover-bg-color);
+            }
+            border-radius: 10px;
+            border: 3px solid #ffffff;
+        }
+    }
     display: flex;
     flex-direction: column;
+    position: relative;
     @include media-up($md) {
         flex-direction: row;
         margin-top: $spacer;
@@ -12,30 +39,7 @@
         &-container {
             max-height: calc(100vh - 108px);
             overflow-y: scroll;
-            /* ===== Scrollbar CSS ===== */
-            scrollbar-width: thin;
-            @include themed() {
-                scrollbar-color: t(hover-bg-color) t(bg-color);
-            }
-
-            /* Chrome, Edge, and Safari */
-            &::-webkit-scrollbar {
-                width: 8px;
-            }
-
-            &::-webkit-scrollbar-track {
-                @include themed() {
-                    background: t(bg-color);
-                }
-            }
-
-            &::-webkit-scrollbar-thumb {
-                @include themed() {
-                    background-color: t(hover-bg-color);
-                }
-                border-radius: 10px;
-                border: 3px solid #ffffff;
-            }
+            @include scrollbar();
         }
         @include media-up($md) {
             width: 40%;
@@ -77,7 +81,8 @@
                 border-bottom: 1px outset t(text-color);
             }
             &:hover,
-            &:focus {
+            &:focus,
+            &.selected {
                 cursor: pointer;
                 @include themed() {
                     background-color: t(hover-bg-color);
@@ -99,5 +104,154 @@
         &-name {
             margin-left: $spacer-xsmall;
         }
+    }
+    &__chat {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 59px);
+        padding: $spacer-xsmall;
+        @include themed() {
+            background-color: t(bg-color);
+        }
+        @include media-up($md) {
+            display: block;
+            position: relative;
+            flex: 1;
+            height: calc(100vh - 99px);
+        }
+        &.message-on {
+            display: flex;
+            #{$component}__chat-empty {
+                display: none;
+            }
+        }
+        &-empty {
+            display: none;
+            @include media-up($md) {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                padding: $spacer-xsmall;
+                @include themed() {
+                    background-color: t(bg-color);
+                }
+            }
+        }
+        &-header {
+            display: flex;
+            align-items: center;
+            padding: 0 $spacer-xsmall $spacer-xsmall;
+            @include themed() {
+                border-bottom: 1px solid t(text-color);
+            }
+            button {
+                background: none;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            svg {
+                @include themed() {
+                    color: t(text-color);
+                    font-size: 2rem;
+                }
+            }
+            span {
+                font-size: 1.5rem;
+                margin-left: $spacer-small;
+                font-weight: 600;
+                @include themed() {
+                    color: t(switch-btn-color);
+                }
+            }
+        }
+    }
+    &__messages {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        overflow-y: scroll;
+        @include scrollbar();
+    }
+    &__message {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: $spacer-xsmall;
+        max-width: 80%;
+        &:first-child {
+            margin-top: $spacer-xsmall;
+        }
+        &--own {
+            align-self: flex-end;
+            align-items: flex-end;
+            #{$component}__message-text {
+                @include themed() {
+                    background-color: #fff;
+                    border: 1px solid t(main-color);
+                    color: #2e2e2e;
+                }
+
+            }
+        }
+        &-text {
+            display: inline;
+            padding: $spacer-xsmall;
+            @include themed() {
+                background-color: t(main-color);
+                color: #fff;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        &-time {
+            transform: scaleY(0);
+            font-size: 0.7rem;
+            transition: transform 0.2s ease-in;
+            transform-origin: top;
+            &.show {
+                transform: scaleY(1);
+            }
+        }
+    }
+    &__type {
+        display: flex;
+        align-items: center;
+        padding-top: $spacer-xsmall;
+        &-label {
+            flex: 1;
+        }
+        &-input {
+            width: 100%;
+            padding: $spacer-xsmall;
+        }
+    }
+    &__button {
+        background: none;
+        font-size: 1.5rem;
+        height: 30px;
+        margin-left: $spacer-small;
+        transition: color 0.2s ease-in;
+        @include themed() {
+            color: t(main-color);
+        }
+        &:hover {
+            cursor: pointer;
+            @include themed() {
+                color: t(hidden-menu-color  );
+            }
+        }
+    }
+    .error {
+        padding: $spacer;
     }
 }
