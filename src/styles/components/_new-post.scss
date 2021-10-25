@@ -67,10 +67,21 @@
             color: t(text-color) !important;
         }
         svg,
-        .ck-button__label {
+        .ck-dropdown__button {
             @include themed() {
                 color: t(text-color) !important;
             }
+        }
+        .ck-button__label {
+            color: #111;
+        }
+        .ck-button {
+            &:hover {
+                background-color: #9c9c9c !important;
+            }
+        }
+        .ck-on {
+            background-color: #aaa !important;
         }
     }
     &__submit {

@@ -97,7 +97,6 @@ function CreatePost({label, postId, isReply}) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        //document.getElementById('body').innerHTML = '';
         postId
             ? isReply ? newReplyCallback(e) : newComment()
             : newPost();

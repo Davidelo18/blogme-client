@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
 import ReactHtmlParser from 'react-html-parser';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -127,7 +128,7 @@ function Comment({ comment: { id, username, body, publishingTime, plusses, minus
         <article className={`comment ${user.username === username && "comment--own"} ${isReply && "comment--reply"}`} key={id}>
             <section className="comment__header">
                 <div className="comment__info">
-                    <div className="comment__user">{username}</div>
+                    <div className="comment__user"><Link to={`/user/${username}`}>{username}</Link></div>
                     <div className="comment__date">{commentDate}</div>
                 </div>
             </section>

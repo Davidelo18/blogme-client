@@ -67,6 +67,7 @@ function Configuration({ user: { info, options } }) {
         }
 
         setUserOptions();
+        window.location.reload(true);
     };
 
     return (
