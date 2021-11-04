@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import moment from 'moment';
 import 'moment/locale/pl';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useSubscription } from '@apollo/client';
 import { AuthContext } from '../core/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ function Messanger() {
         }
     }
 
-    const { loading, data: { getUsers: users } = {}} = useQuery(GET_USERS);
+    const { loading, data: { getUsers: users } = {} } = useQuery(GET_USERS);
     const [selectedUser, setSelectedUser] = useState(null);
 
     // Wyszukiwarka użytkowników
@@ -46,17 +46,42 @@ function Messanger() {
         });
     }
 
+    // Scrollowanie do dołu w komunikatorze
+    function scrollToDown() {
+        const $messagesDiv = document.querySelector('.messanger__messages');
+        $messagesDiv.scrollTop = $messagesDiv.scrollHeight;
+    }
+
     // Pobranie wiadomości
-    const [ getMessages, { data: messagesData }] = useLazyQuery(GET_MESSAGES);
+    const [getMessages, { data: messagesData }] = useLazyQuery(GET_MESSAGES, {
+        onCompleted: () => {
+            scrollToDown();
+        },
+        fetchPolicy: "cache-and-network"
+    });
 
     function callbackSetSelectedUser(e, username) {
         setSelectedUser(username);
+        setValues({ ...values, [e.target.id]: username });
+
         const $usersDiv = document.querySelectorAll('.messanger__user-btn');
         $usersDiv.forEach(div => { div.classList.remove('selected') });
         e.target.classList.add('selected');
         document.querySelector('.messanger__chat').classList.add('message-on');
         document.querySelector('.js-addressUserName').textContent = username;
     }
+
+    // Nasłuchiwanie wiadomości
+    const { data: messageSub, error: messageSubError } = useSubscription(NEW_MESSAGE);
+
+    useEffect(() => {
+        if (messageSubError) console.log(messageSubError);
+
+        if (messageSub) {
+            const message = messageSub.newMessage;
+            getMessages({ variables: { messagesFrom: message.sendFrom } });
+        }
+    }, [messageSubError, messageSub, getMessages])
 
     // Przycisk powrotu do wybierania użytkownika do rozmowy
     const $backToUsersBtn = document.querySelector('.js-backToUsers');
@@ -68,14 +93,54 @@ function Messanger() {
 
     useEffect(() => {
         if (selectedUser) {
-            getMessages({ variables: { messagesFrom: selectedUser } })
+            getMessages({ variables: { messagesFrom: selectedUser } });
         }
-    }, [selectedUser, getMessages]);
+    }, [selectedUser, getMessages, messageSub]);
 
     // Pokaż czas wysłania wiadomości
     function showTime(e) {
         e.target.closest('.messanger__message').querySelector('.messanger__message-time').classList.toggle('show');
     }
+
+    // Wysyłanie wiadomości
+    const [values, setValues] = useState({
+        body: '',
+        sendTo: ''
+    });
+
+    const [sendMessage] = useMutation(SEND_MESSAGE, {
+        update(proxy, result) {
+            const data = proxy.readQuery({
+                query: GET_MESSAGES,
+                variables: {
+                    messagesFrom: values.sendTo
+                }
+            });
+            proxy.writeQuery({
+                query: GET_MESSAGES,
+                variables: {
+                    messagesFrom: values.sendTo
+                },
+                data: {
+                    getMessages: [...data.getMessages, result.data.sendMessage]
+                }
+            });
+        },
+        onCompleted: () => {
+            scrollToDown();
+        },
+        variables: values
+    });
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        e.target.querySelector('.messanger__type-input').value = "";
+        sendMessage();
+    };
 
     return (
         <section className="messanger">
@@ -87,11 +152,11 @@ function Messanger() {
                     {loading ? (
                         <div>Ładowanie...</div>
                     ) : (users && users.map(u => (
-                            ((u.options.canReceiveMessages && u.username !== user.username )  &&
-                                <div tabIndex="0" className="messanger__user-btn" key={u.id} onClick={(e) => callbackSetSelectedUser(e, u.username)}>
-                                    <div className="messanger__user-avatar"><img src={u.avatar} alt={`avatar użytkownika ${u.username}`} /></div>
-                                    <div className="messanger__user-name">{u.username}</div>
-                                </div>)
+                        ((u.options.canReceiveMessages && u.username !== user.username) &&
+                            <div tabIndex="0" className="messanger__user-btn" key={u.id} id="sendTo" onClick={(e) => callbackSetSelectedUser(e, u.username)}>
+                                <div className="messanger__user-avatar"><img src={u.avatar} alt={`avatar użytkownika ${u.username}`} /></div>
+                                <div className="messanger__user-name">{u.username}</div>
+                            </div>)
                     )))}
                 </div>
             </div>
@@ -114,8 +179,10 @@ function Messanger() {
                     )}
                 </div>
                 <div className="messanger__type">
-                    <label className="messanger__type-label"><input className="messanger__type-input" type="text" placeholder="Wiadomość..."></input></label>
-                    <button className="messanger__button"><FontAwesomeIcon icon={faArrowCircleRight} /></button>
+                    <form onSubmit={onSubmit}>
+                        <label className="messanger__type-label"><input className="messanger__type-input" name="body" onChange={onChange} type="text" placeholder="Wiadomość..."></input></label>
+                        <button className="messanger__button"><FontAwesomeIcon icon={faArrowCircleRight} /></button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -138,6 +205,30 @@ const GET_USERS = gql`
 const GET_MESSAGES = gql`
     query($messagesFrom: String!) {
         getMessages(messagesFrom: $messagesFrom) {
+            id
+            body
+            sendFrom
+            sendTo
+            sendingTime
+        }
+    }
+`;
+
+const SEND_MESSAGE = gql`
+    mutation sendMessage($body: String! $sendTo: String!) {
+        sendMessage(body: $body sendTo: $sendTo) {
+            id
+            body
+            sendFrom
+            sendTo
+            sendingTime
+        }
+    }
+`;
+
+const NEW_MESSAGE = gql`
+    subscription newMessage {
+        newMessage {
             id
             body
             sendFrom
