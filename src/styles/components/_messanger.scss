@@ -91,6 +91,9 @@
             &.hide {
                 display: none;
             }
+            div {
+                pointer-events: none;
+            }
         }
         &-avatar {
             width: 40px;
@@ -127,6 +130,9 @@
             display: flex;
             #{$component}__chat-empty {
                 display: none;
+            }
+            #{$component}__messages {
+                display: flex;
             }
         }
         &-empty {
@@ -175,7 +181,7 @@
     }
     &__messages {
         flex: 1;
-        display: flex;
+        display: none;
         flex-direction: column;
         align-items: flex-start;
         overflow-y: scroll;
@@ -214,19 +220,23 @@
             }
         }
         &-time {
+            max-height: 0;
             transform: scaleY(0);
             font-size: 0.7rem;
-            transition: transform 0.2s ease-in;
+            transition: all 0.2s ease-in;
             transform-origin: top;
             &.show {
+                max-height: 100%;
                 transform: scaleY(1);
             }
         }
     }
     &__type {
-        display: flex;
-        align-items: center;
-        padding-top: $spacer-xsmall;
+        form {
+            display: flex;
+            align-items: center;
+            padding-top: $spacer-xsmall;
+        }
         &-label {
             flex: 1;
         }
