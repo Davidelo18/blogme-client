@@ -37,6 +37,8 @@
         flex-direction: column;
         width: 100%;
         &-container {
+            display: flex;
+            flex-direction: column;
             max-height: calc(100vh - 108px);
             overflow-y: scroll;
             @include scrollbar();
@@ -48,6 +50,9 @@
             }
         }
         @include media-up($lg) {
+            width: 35%;
+        }
+        @include media-up($xl) {
             width: 30%;
         }
     }
@@ -73,6 +78,7 @@
     }
     &__user {
         &-btn {
+            order: 2;
             display: flex;
             align-items: center;
             padding: $spacer-xsmall;
@@ -90,6 +96,20 @@
             }
             &.hide {
                 display: none;
+            }
+            &.new-message {
+                order: 0;
+                @include themed() {
+                    background-color: t(switch-btn-color);
+                }
+                .messanger__user-name {
+                    &::after {
+                        content: '[nieprzeczytane]';
+                        display: inline-block;
+                        font-weight: 700;
+                        margin-left: $spacer-xsmall;
+                    }
+                }
             }
             div {
                 pointer-events: none;
@@ -116,7 +136,7 @@
         left: 0;
         width: 100%;
         height: calc(100vh - 59px);
-        padding: $spacer-xsmall;
+        padding: $spacer-xsmall 0;
         @include themed() {
             background-color: t(bg-color);
         }
@@ -185,6 +205,7 @@
         flex-direction: column;
         align-items: flex-start;
         overflow-y: scroll;
+        padding: 0 $spacer-xsmall;
         @include scrollbar();
     }
     &__message {
