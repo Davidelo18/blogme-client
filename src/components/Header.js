@@ -12,7 +12,7 @@ function Header() {
                 <button className="header__burger" id="burgerBtn"></button>
                 <ul className="header__options-container" id="menuList">
                     <li className="header__option header__option--user"><Link to={`/user/${user.username}`}>{user.username}</Link></li>
-                    <li className="header__option" id="optionsMenu"><Link to={`/message`}>Czat</Link></li>
+                    <li className="header__option" id="optionsMenu chat-menu"><Link to={`/message`}>Czat</Link></li>
                     <li className="header__option" id="optionsMenu"><Link to={`/user/${user.username}/konfiguracja`}>Konfiguracja profilu</Link></li>
                     <li className="header__option" role="button" onClick={logout}>Wyloguj się</li>
                 </ul>

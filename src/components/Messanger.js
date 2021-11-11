@@ -7,7 +7,7 @@ import { useLazyQuery, useSubscription } from '@apollo/client';
 import { AuthContext } from '../core/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { GET_USER_INFO } from '../core/graphql';
+import { GET_USER_INFO, NEW_MESSAGE } from '../core/graphql';
 
 function Messanger() {
     const { user } = useContext(AuthContext);
@@ -30,11 +30,11 @@ function Messanger() {
     const [selectedUser, setSelectedUser] = useState(null);
 
     // Wyszukiwarka użytkowników
+    const $userNamesDiv = document.querySelectorAll('.messanger__user-name');
     const $searchInput = document.querySelector('.messanger__search-input');
     if ($searchInput) {
         $searchInput.addEventListener('input', (e) => {
             let searchValue = e.target.value;
-            const $userNamesDiv = document.querySelectorAll('.messanger__user-name');
             $userNamesDiv.forEach(div => {
                 const name = div.textContent;
                 if (name.indexOf(searchValue) === -1) {
@@ -60,11 +60,12 @@ function Messanger() {
         fetchPolicy: "cache-and-network"
     });
 
+    const $usersDiv = document.querySelectorAll('.messanger__user-btn');
     function callbackSetSelectedUser(e, username) {
         setSelectedUser(username);
         setValues({ ...values, [e.target.id]: username });
 
-        const $usersDiv = document.querySelectorAll('.messanger__user-btn');
+        e.target.classList.remove('new-message');
         $usersDiv.forEach(div => { div.classList.remove('selected') });
         e.target.classList.add('selected');
         document.querySelector('.messanger__chat').classList.add('message-on');
@@ -79,6 +80,7 @@ function Messanger() {
 
         if (messageSub) {
             const message = messageSub.newMessage;
+
             getMessages({ variables: { messagesFrom: message.sendFrom } });
         }
     }, [messageSubError, messageSub, getMessages])
@@ -87,7 +89,6 @@ function Messanger() {
     const $backToUsersBtn = document.querySelector('.js-backToUsers');
     $backToUsersBtn && $backToUsersBtn.addEventListener('click', () => {
         document.querySelectorAll('.messanger__user-btn').forEach(div => { div.classList.remove('selected') });
-        document.querySelector('.messanger__chat').classList.remove('message-on');
         setSelectedUser(null);
     })
 
@@ -217,18 +218,6 @@ const GET_MESSAGES = gql`
 const SEND_MESSAGE = gql`
     mutation sendMessage($body: String! $sendTo: String!) {
         sendMessage(body: $body sendTo: $sendTo) {
-            id
-            body
-            sendFrom
-            sendTo
-            sendingTime
-        }
-    }
-`;
-
-const NEW_MESSAGE = gql`
-    subscription newMessage {
-        newMessage {
             id
             body
             sendFrom

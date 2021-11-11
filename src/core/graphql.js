@@ -83,3 +83,15 @@ export const GET_USER_INFO = gql`
         }
     }
 `;
+
+export const NEW_MESSAGE = gql`
+    subscription newMessage {
+        newMessage {
+            id
+            body
+            sendFrom
+            sendTo
+            sendingTime
+        }
+    }
+`;
