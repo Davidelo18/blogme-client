@@ -144,6 +144,12 @@
                 }
             }
         }
+        &.new {
+            font-weight: 700;
+            @include themed() {
+                color: t(switch-btn-color);
+            }
+        }
     }
     &__hidden-menu-container {
         max-height: 0;
