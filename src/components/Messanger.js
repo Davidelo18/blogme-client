@@ -80,6 +80,7 @@ function Messanger() {
 
         if (messageSub) {
             const message = messageSub.newMessage;
+            console.log(messageSub.newMessage.sendFrom);
 
             getMessages({ variables: { messagesFrom: message.sendFrom } });
         }
@@ -154,7 +155,7 @@ function Messanger() {
                         <div>Ładowanie...</div>
                     ) : (users && users.map(u => (
                         ((u.options.canReceiveMessages && u.username !== user.username) &&
-                            <div tabIndex="0" className="messanger__user-btn" key={u.id} id="sendTo" onClick={(e) => callbackSetSelectedUser(e, u.username)}>
+                            <div tabIndex="0" className={messageSub && messageSub.newMessage.sendFrom === u.username ? "messanger__user-btn new-message" : "messanger__user-btn"} key={u.id} id="sendTo" onClick={(e) => callbackSetSelectedUser(e, u.username)}>
                                 <div className="messanger__user-avatar"><img src={u.avatar} alt={`avatar użytkownika ${u.username}`} /></div>
                                 <div className="messanger__user-name">{u.username}</div>
                             </div>)

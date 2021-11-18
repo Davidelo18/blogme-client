@@ -12,8 +12,10 @@ function CreatePost({label, postId, isReply}) {
         body: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     // nowy post
-    const [newPost, { postError }] = useMutation(NEW_POST, {
+    const [newPost] = useMutation(NEW_POST, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({ query: FETCH_POSTS });
@@ -25,12 +27,12 @@ function CreatePost({label, postId, isReply}) {
             values.body = '';
         },
         onError(err) {
-            console.error(err);
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
         }
     });
 
     // nowy komentarz
-    const [newComment, { commentError }] = useMutation(NEW_COMMENT, {
+    const [newComment] = useMutation(NEW_COMMENT, {
         variables: { postId, body: values.body },
         update(proxy, result) {
             const data = proxy.readQuery({
@@ -56,7 +58,7 @@ function CreatePost({label, postId, isReply}) {
     });
 
     // nowa odpowiedź
-    const [newReply, { replyError }] = useMutation(NEW_REPLY, {
+    const [newReply] = useMutation(NEW_REPLY, {
         variables: { commentId: postId, body: values.body },
         update(proxy, result) {
             const data = proxy.readQuery({
@@ -104,7 +106,7 @@ function CreatePost({label, postId, isReply}) {
 
     return (
         <div className={isReply ? "new-post new-post--reply" : "new-post"}>
-            <section className="new-post__content">
+            <section className={Object.keys(errors).length > 0 ? "new-post__content error" : "new-post__content"}>
                 <CKEditor editor={ClassicEditor}
                     config={{
                         language: 'pl',
@@ -116,16 +118,16 @@ function CreatePost({label, postId, isReply}) {
                     } }
                 />
             </section>
+            {Object.keys(errors).length > 0 && (
+                <section className="new-post__errors">
+                <ul className="new-post__error-list">
+                    {Object.values(errors).map(val => (
+                        <li key={val}>{val}</li>
+                    ))}
+                </ul>
+                </section>
+            )}
             <button className="new-post__submit" onClick={onSubmit}>{label}</button>
-            {postError && (
-                <div>{(postError.graphQLErrors[0].message)}</div>
-            )}
-            {commentError && (
-                <div>{(commentError.graphQLErrors[0].message)}</div>
-            )}
-            {replyError && (
-                <div>{(replyError.graphQLErrors[0].message)}</div>
-            )}
         </div>
     )
 }

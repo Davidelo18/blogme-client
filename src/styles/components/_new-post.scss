@@ -5,6 +5,11 @@
         @include themed() {
             border: 1px solid t(main-color);
         }
+        &.error {
+            @include themed() {
+                border-color: t(red-color);
+            }
+        }
     }
     &__toolbar {
         display: flex;
@@ -104,6 +109,14 @@
             @include themed() {
                 background-color: t(hidden-menu-color);
             }
+        }
+    }
+    &__error-list {
+        font-weight: 700;
+        text-align: center;
+        padding: $spacer-xsmall 0;
+        @include themed() {
+            color: t(red-color);
         }
     }
     &--reply {
