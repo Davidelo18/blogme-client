@@ -4,7 +4,7 @@ import 'moment/locale/pl';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
-function Configuration({ user: { info, options } }) {
+function Configuration({ user: { avatar, info, options } }) {
     moment.locale('pl');
 
     const [values, setValues] = useState({
@@ -21,6 +21,10 @@ function Configuration({ user: { info, options } }) {
     const [optionsValues, setOptionsValues] = useState({
         nightTheme: options.nightTheme,
         canReceiveMessages: options.canReceiveMessages
+    });
+
+    const [avatarValues, setAvatarValues] = useState({
+        photoUrl: avatar.photoUrl
     });
 
     const [message, setMessage] = useState({});
@@ -70,6 +74,49 @@ function Configuration({ user: { info, options } }) {
         window.location.reload(true);
     };
 
+    const [setAvatar] = useMutation(SET_AVATAR, {
+        variables: avatarValues
+    });
+
+    const onAvatarChange = (e) => {
+        setAvatarValues({ ...avatarValues, [e.target.name]: e.target.value });
+    };
+
+    function checkIfImageExists(url, callback) {
+        const img = new Image();
+        img.src = url;
+
+        if (img.complete) {
+            callback(true);
+        } else {
+            img.onload = () => {
+                callback(true);
+            };
+            img.onerror = () => {
+                callback(false);
+            };
+        }
+    }
+
+    const [avatarErrors, setAvatarErrors] = useState({});
+
+    const onAvatarSubmit = (e) => {
+        e.preventDefault();
+        if (/(https?:\/\/[^\s]+)/g.test(avatarValues.photoUrl)) {
+            checkIfImageExists(avatarValues.photoUrl, (exists) => {
+                if (exists) {
+                    setAvatar();
+                    setAvatarErrors("");
+                    alert("Twój avatar został zmieniony.");
+                } else {
+                    setAvatarErrors("Niepoprawny obraz.");
+                }
+            });
+        } else {
+            setAvatarErrors("Niepoprawny link.")
+        }
+    };
+
     return (
         <section className="configuration">
             <div className="configuration__column">
@@ -104,7 +151,7 @@ function Configuration({ user: { info, options } }) {
                         <input className="configuration__input configuration__input--text" name="website" value={values.website} onChange={onChange} type="text" id="website" />
                     </div>
                     {Object.keys(message).length > 0 && (
-                        <div className="configuration__message">{message}</div> )
+                        <div className="configuration__message">{message}</div>)
                     }
                     <div className="configuration__input-section">
                         <button className="configuration__button">Zatwierdź</button>
@@ -132,6 +179,21 @@ function Configuration({ user: { info, options } }) {
                         <button className="configuration__button">Zatwierdź</button>
                     </div>
                 </form>
+                <h2 className="configuration__title">Avatar</h2>
+                <form onSubmit={onAvatarSubmit}>
+                    <div className="configuration__input-section">
+                        <label className="configuration__label" htmlFor="surname">Link do obrazu: </label>
+                        <input className="configuration__input configuration__input--text" name="photoUrl" value={avatarValues.photoUrl} onChange={onAvatarChange} type="text" id="surname" />
+                    </div>
+                    <div className="configuration__input-section">
+                        <button className="configuration__button">Zatwierdź</button>
+                    </div>
+                </form>
+                {Object.keys(avatarErrors).length > 0 && (
+                    <section className="errors">
+                        {Object.values(avatarErrors)}
+                    </section>
+                )}
             </div>
         </section>
     )
@@ -183,6 +245,14 @@ const SET_USER_OPTIONS = gql`
                 nightTheme
                 canReceiveMessages
             }
+        }
+    }
+`;
+
+const SET_AVATAR = gql`
+    mutation setAvatar($photoUrl: String!){
+        setAvatar(photoUrl: $photoUrl){
+            avatar
         }
     }
 `;

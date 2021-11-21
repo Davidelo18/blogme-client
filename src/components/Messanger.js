@@ -7,7 +7,7 @@ import { useLazyQuery, useSubscription } from '@apollo/client';
 import { AuthContext } from '../core/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { GET_USER_INFO, NEW_MESSAGE } from '../core/graphql';
+import { GET_USER_INFO, NEW_MESSAGE, CHECK_UNREAD_MESSAGES } from '../core/graphql';
 
 function Messanger() {
     const { user } = useContext(AuthContext);
@@ -56,6 +56,7 @@ function Messanger() {
     const [getMessages, { data: messagesData }] = useLazyQuery(GET_MESSAGES, {
         onCompleted: () => {
             scrollToDown();
+            refetch();
         },
         fetchPolicy: "cache-and-network"
     });
@@ -71,6 +72,9 @@ function Messanger() {
         document.querySelector('.messanger__chat').classList.add('message-on');
         document.querySelector('.js-addressUserName').textContent = username;
     }
+
+    // Sprawdzanie nieprzeczytanych wiadomości
+    const { data: { checkUnreadMessages: unreadMessages } = {}, refetch } = useQuery(CHECK_UNREAD_MESSAGES);
 
     // Nasłuchiwanie wiadomości
     const { data: messageSub, error: messageSubError } = useSubscription(NEW_MESSAGE);
@@ -154,8 +158,8 @@ function Messanger() {
                         <div>Ładowanie...</div>
                     ) : (users && users.map(u => (
                         ((u.options.canReceiveMessages && u.username !== user.username) &&
-                            <div tabIndex="0" className="messanger__user-btn" key={u.id} id="sendTo" onClick={(e) => callbackSetSelectedUser(e, u.username)}>
-                                <div className="messanger__user-avatar"><img src={u.avatar} alt={`avatar użytkownika ${u.username}`} /></div>
+                            <div tabIndex="0" className={`messanger__user-btn ${unreadMessages.find(unreadOne => unreadOne.sendFrom === u.username) && `new-message`}`} key={u.id} id="sendTo" onClick={(e) => callbackSetSelectedUser(e, u.username)}>
+                                <div className="messanger__user-avatar"><img src={u.avatar} alt={`avatar użytkownika ${u.username}`} onerror="this.onerror=null; this.src='https://blogme.pl/avatar.png';" /></div>
                                 <div className="messanger__user-name">{u.username}</div>
                             </div>)
                     )))}

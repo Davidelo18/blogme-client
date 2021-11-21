@@ -92,6 +92,7 @@ export const NEW_MESSAGE = gql`
             sendFrom
             sendTo
             sendingTime
+            isRead
         }
     }
 `;
@@ -99,8 +100,11 @@ export const NEW_MESSAGE = gql`
 export const CHECK_UNREAD_MESSAGES = gql`
     {
         checkUnreadMessages{
-            sendFrom
+            id
             body
+            sendFrom
+            sendTo
+            sendingTime
             isRead
         }
     }
