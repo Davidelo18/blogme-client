@@ -82,4 +82,11 @@
             }
         }
     }
+    .errors {
+        text-align: center;
+        font-weight: 700;
+        @include themed() {
+            color: t(red-color);
+        }
+    }
 }

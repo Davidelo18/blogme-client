@@ -64,7 +64,7 @@ function Post({ post: { id, username, body, publishingTime, plusses, minusses, v
         <article className={user.username === username ? "post post--own" : "post"}>
             <div className="post__header">
                 <div className="post__avatar">
-                    <img src={getUserInfo ? getUserInfo.avatar : "https://blogme.pl/avatar.png"} alt="Avatar użytkownika" />
+                    <img src={getUserInfo ? getUserInfo.avatar : "https://blogme.pl/avatar.png"} alt="Avatar użytkownika" onerror="this.onerror=null; this.src='https://blogme.pl/avatar.png';" />
                 </div>
                 <div className="post__info">
                     <div className="post__user"><Link to={`/user/${username}`}>{username}</Link></div>

@@ -11,11 +11,10 @@ function User({ user: { username, email, timeCreated, avatar, info, options } })
     return (
         <section className="user">
             <div className="user__header">
-                <div className="user__avatar"><img src={avatar} alt={`Avatar użytkownika/czki ${username}`} /></div>
+                <div className="user__avatar"><img src={avatar} alt={`Avatar użytkownika/czki ${username}`} onerror="this.onerror=null; this.src='https://blogme.pl/avatar.png';" /></div>
                 <div className="user__nick">{username}</div>
             </div>
             <div className="user__body">
-                {(options.canReceiveMessages && username !== user.username)  && (<Link className="user__configuration-link" to={`/message/${username}`}>Wyślij prywatną wiadomość</Link>)}
                 {username === user.username && (<Link className="user__configuration-link" to={`/user/${username}/konfiguracja`}>Konfiguracja profilu</Link>)}
                 <ul className="user__basic">
                     <li><span className="user__label">Email: </span>{email}</li>
