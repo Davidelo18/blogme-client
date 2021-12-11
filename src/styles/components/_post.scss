@@ -69,6 +69,7 @@
     }
     &__body {
         margin: $spacer-small $spacer-xsmall;
+        word-break: break-all;
     }
     &__vote {
         font-weight: bold;
