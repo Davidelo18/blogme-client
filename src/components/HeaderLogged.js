@@ -25,7 +25,7 @@ function HeaderLogged() {
             <Link to="/"><div className="header__logo">blogMe</div></Link>
             <nav className="header__nav">
                 <button className="header__burger" id="burgerBtn"></button>
-                <ul className="header__options-container" id="menuList">
+                <ul className="header__optionsContainer" id="menuList">
                     <li className="header__option header__option--user"><Link to={`/user/${user.username}`}>{user.username}</Link></li>
                     <li className={(messages && messages.length > 0) ? "header__option new" : "header__option"} id="optionsMenu chat-menu">
                         <Link to={`/message`}>{(messages && messages.length > 0) && (<span>({ messages.length })</span>)} Czat</Link>
