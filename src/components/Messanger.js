@@ -94,6 +94,7 @@ function Messanger() {
     $backToUsersBtn && $backToUsersBtn.addEventListener('click', () => {
         document.querySelectorAll('.messanger__user-btn').forEach(div => { div.classList.remove('selected') });
         setSelectedUser(null);
+        document.querySelector('.messanger__chat').classList.remove('message-on');
     })
 
     useEffect(() => {

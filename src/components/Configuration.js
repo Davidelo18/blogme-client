@@ -31,13 +31,14 @@ function Configuration({ user: { avatar, info, options } }) {
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
-        setMessage("")
+        setMessage("");
     };
 
     const [setUserInfo] = useMutation(SET_USER_INFO, {
         variables: values,
         update() {
-            setMessage("Informacje o Tobie zostały zmienione")
+            setMessage("Informacje o Tobie zostały zmienione");
+            window.location.reload(true);
         }
     });
 
@@ -75,7 +76,10 @@ function Configuration({ user: { avatar, info, options } }) {
     };
 
     const [setAvatar] = useMutation(SET_AVATAR, {
-        variables: avatarValues
+        variables: avatarValues,
+        update() {
+            window.location.reload(true);
+        }
     });
 
     const onAvatarChange = (e) => {

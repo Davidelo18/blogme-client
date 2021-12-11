@@ -15,7 +15,7 @@
         width: 100%;
         flex-shrink: 0;
         padding: $spacer-small;
-        padding-bottom: 4 * $spacer-small;
+        padding-bottom: 3 * $spacer;
         transition: transform 0.5s ease-in-out;
         &--register {
             transform: translateX(-100%);
@@ -82,7 +82,7 @@
         }
     }
     &__errors {
-        width: 35%;
+        width: 100%;
         margin: auto;
         padding: $spacer-small;
         background-color: $light-red;
@@ -90,5 +90,11 @@
         border-radius: 6px;
         font-weight: 600;
         color: $red;
+        @include media-up($md) {
+            width: 50%;
+        }
+        @include media-up($xl) {
+            width: 35%;
+        }
     }
 }

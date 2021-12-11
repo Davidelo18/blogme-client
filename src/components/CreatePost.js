@@ -53,7 +53,7 @@ function CreatePost({label, postId, isReply}) {
             values.body = '';
         },
         onError(err) {
-            console.error(err);
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
         }
     });
 
@@ -80,7 +80,7 @@ function CreatePost({label, postId, isReply}) {
             alert("Twoja odpowiedź została dodana");
         },
         onError(err) {
-            console.error(err);
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
         }
     });
 
