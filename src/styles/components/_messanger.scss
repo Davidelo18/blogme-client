@@ -39,7 +39,7 @@
         &-container {
             display: flex;
             flex-direction: column;
-            max-height: calc(100vh - 108px);
+            max-height: calc(100vh - 128px);
             overflow-y: scroll;
             @include scrollbar();
         }
