@@ -24,7 +24,7 @@ function CreatePost({label, postId, isReply}) {
                 query: FETCH_POSTS,
                 data: { getPosts: [result.data.createPost, ...data.getPosts] }
             });
-            values.body = '';
+            setErrors("");
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -50,7 +50,7 @@ function CreatePost({label, postId, isReply}) {
                     getComments: [result.data.createComment, ...data.getComments]
                 }
             });
-            values.body = '';
+            setErrors("");
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -76,7 +76,7 @@ function CreatePost({label, postId, isReply}) {
                     getReplies: [result.data.postReplyToComment, ...data.getReplies]
                 }
             });
-            values.body = '';
+            setErrors("");
             alert("Twoja odpowiedź została dodana");
         },
         onError(err) {

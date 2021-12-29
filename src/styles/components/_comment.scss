@@ -38,6 +38,7 @@
     }
     &__body {
         padding: $spacer-small;
+        word-break: break-word;
     }
     &__footer {
         display: flex;
