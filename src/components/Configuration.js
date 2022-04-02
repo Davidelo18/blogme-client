@@ -36,7 +36,7 @@ function Configuration({ user: { avatar, info, options } }) {
 
     const [setUserInfo] = useMutation(SET_USER_INFO, {
         variables: values,
-        update() {
+        onCompleted: () => {
             setMessage("Informacje o Tobie zostały zmienione");
             window.location.reload(true);
         }
@@ -48,7 +48,10 @@ function Configuration({ user: { avatar, info, options } }) {
     };
 
     const [setUserOptions] = useMutation(SET_USER_OPTIONS, {
-        variables: optionsValues
+        variables: optionsValues,
+        onCompleted: () => {
+            window.location.reload(true);
+        }
     });
 
     const onOptionChange = (e) => {
@@ -72,7 +75,6 @@ function Configuration({ user: { avatar, info, options } }) {
         }
 
         setUserOptions();
-        window.location.reload(true);
     };
 
     const [setAvatar] = useMutation(SET_AVATAR, {
